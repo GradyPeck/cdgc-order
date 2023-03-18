@@ -1,0 +1,5 @@
+TO PUSH, DO THIS:
+
+git add -A
+git commit -m "your message here"
+git push
