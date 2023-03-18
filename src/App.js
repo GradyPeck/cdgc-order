@@ -9,7 +9,6 @@ function App() {
     <form>
       {/* TODO: name blanks */}
       {/* TODO: contact info blanks */}
-      {/* TODO: Format Header */}
       <header>
         <h1>2023 County Downs Garden Club Plant Sale</h1>
         <h2>Orders are due by May 2nd</h2>
