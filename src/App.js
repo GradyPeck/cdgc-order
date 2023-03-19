@@ -16,15 +16,17 @@ function App() {
         <h2>Location:  Justina's House, 8149 Hendrie, Huntington Woods</h2>
         <h2>Questions:  Call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764</h2>
       </header>
-      <div>
-        <p>PLANT ASSORTMENT</p>
-      </div>
-      <div>
-        <p>Quantity</p>
-        <p>Cost</p>
-        <p>Total</p>
-      </div>
-      {myCats}
+      <main className='main-grid'>
+        <div className='grid-banner'>
+          <p>PLANT ASSORTMENT</p>
+        </div>
+        <div className='grid-heading'></div>
+        <div className='grid-heading'></div>
+        <h4 className='grid-heading'>Quantity</h4>
+        <h4 className='grid-heading'>Cost</h4>
+        <h4 className='grid-heading'>Total</h4>
+        {myCats}
+      </main>
     </form>
   );
 }

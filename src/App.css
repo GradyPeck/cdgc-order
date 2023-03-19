@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 header {
   text-align: center;
   margin-bottom: 20px;
@@ -5,4 +9,30 @@ header {
 
 h1, h2 {
   margin: 0;
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 20vw);
+}
+
+.grid-banner {
+  grid-column-start: 1;
+  grid-column-end: -1;
+}
+
+.grid-heading {
+  grid-row-start: 2;
+}
+
+.cat-list {
+  padding-left: 20px;
+}
+
+.top-cat {
+  grid-column-start: 1;
+}
+
+.item-col {
+  grid-column-start: span 1;
 }

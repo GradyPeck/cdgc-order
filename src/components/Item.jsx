@@ -9,9 +9,9 @@ export default function Item({entry}) {
     else costString += ".00";
 
     return (
-        <p>
-            <span>{name}, </span>
-            <span>{unit}, </span>
+        <p className="main-grid">
+            <span>{name}</span>
+            <span>{unit}</span>
             <span>${costString}</span>
         </p>
     );

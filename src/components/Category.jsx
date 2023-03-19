@@ -14,9 +14,11 @@ export default function Category({name, itemList}) {
     });
 
     return (
-        <div>
+        <div className="top-cat" >
             <p>{name}</p>
-            {myItems}
+            <div className="cat-list">
+                {myItems}
+            </div>
         </div>
     )
 }
