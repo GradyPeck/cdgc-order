@@ -1,24 +1,13 @@
 import Item from "./Item";
 
-export default function Category({name, itemList}) {
+export default function Category({name, itemList, indent, update}) {
 
-    const myItems = itemList.map((datum, i) => {
-        const keys = Object.keys(datum);
-        if(keys.includes("name")) {
-            return <Item key={i} entry={datum} />
-        }
-        else {
-            const myName = keys[0];
-            return <Category key={i} name={myName} itemList={datum[myName]} />
-        }
-    });
+    const myItems = itemList.map((datum, i) => <Item key={i} entry={datum} indent={indent} update={update} />);
 
     return (
-        <div className="top-cat" >
-            <p>{name}</p>
-            <div className="cat-list">
-                {myItems}
-            </div>
+        <div className="at-Left" >
+            <h4>{name}</h4>
+            {myItems}
         </div>
-    )
+    );
 }

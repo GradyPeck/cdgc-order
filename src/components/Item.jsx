@@ -1,18 +1,36 @@
-export default function Item({entry}) {
+import { useEffect, useState } from "react";
+import { currencyString } from "../util";
+
+export default function Item({entry, indent, update}) {
+    const[quant, setQuant] = useState(0);
+    const[total, setTotal] = useState(0);
     const {name, unit, cost} = entry;
 
-    //create a string version of cost with appropriate decimal notation
-    let costString = (cost / 100).toString();
-    if(costString.includes(".")) {
-        if(costString.length - costString.indexOf(".") === 2) costString += "0";
+    useEffect(() => {
+        setTotal(quant * cost);
+        update(name, quant, cost);
+    }, [quant, cost, name, update]);
+
+    function validateInt(input) {
+        const output = Number.parseInt(input);
+        if(isNaN(output)) return 0;
+        else return output;
     }
-    else costString += ".00";
+
+    function updateQuant(e) {
+        setQuant(validateInt(e.target.value));
+    }
 
     return (
-        <p className="main-grid">
-            <span>{name}</span>
+        <div className="main-grid at-Left">
+            <span className={indent ? "indentedItem" : ""}>{name}</span>
             <span>{unit}</span>
-            <span>${costString}</span>
-        </p>
+            <input className="quant-input" type="number" min="0" step="1" onBlur={updateQuant} defaultValue={quant}></input>
+            <span>{currencyString(cost)}</span>
+            <span>{currencyString(total)}</span>
+        </div>
     );
+
+    // condition ? A : B
+    
 }

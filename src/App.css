@@ -7,32 +7,39 @@ header {
   margin-bottom: 20px;
 }
 
-h1, h2 {
+h1, h2, h4{
   margin: 0;
 }
 
 .main-grid {
   display: grid;
-  grid-template-columns: repeat(5, 20vw);
+  grid-template-columns: 40vw repeat(4, 15vw);
 }
 
 .grid-banner {
   grid-column-start: 1;
   grid-column-end: -1;
+  margin: auto;
 }
 
 .grid-heading {
-  grid-row-start: 2;
+  margin: auto 0px;
 }
 
-.cat-list {
-  padding-left: 20px;
-}
-
-.top-cat {
+.at-Left {
   grid-column-start: 1;
 }
 
-.item-col {
-  grid-column-start: span 1;
+.indentedItem {
+  padding-left: 20px;
+}
+
+.formRow {
+  display: flex;
+  justify-content: space-around;
+  height: 3vh;
+}
+
+.formRow input {
+  width: 40vw;
 }
