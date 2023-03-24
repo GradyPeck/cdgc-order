@@ -1,5 +1,5 @@
 /* 
-TODO: Fonts
+TODO: Fonts?
 Calibri (mostly 16pt), largest heading 20pt
 */
 
@@ -91,6 +91,10 @@ h1, h2, h4{
   background-color: silver;
 }
 
+.center-text {
+  text-align: center;
+}
+
 hr {
   grid-column-start: 1;
   grid-column-end: -1;
@@ -116,18 +120,25 @@ hr {
   text-align: center;
 }
 
-#total-counter {
-  margin-left: -6px;
+#total-label {
+  text-align: right;
 }
 
-#total-label, #total-counter {
+#total-spacer, #total-label, #total-counter {
   font-size: 20pt;
 }
+
+.button-group {
+  display: flex;
+  align-items: center;
+  margin: 20px 0px;
+}
+
 
 button {
   display: block;
   margin: 10px auto;
-  min-width: 70px;
+  min-width: fit-content;
 }
 
 @media (min-width: 800px) {

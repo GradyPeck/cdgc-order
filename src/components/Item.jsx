@@ -26,8 +26,8 @@ export default function Item({entry, indent, update}) {
             <span className={indent ? "indented-item" : "loose-item"}>{name}</span>
             <span className="unit">{unit}</span>
             <input className="quant-input" type="number" min="0" step="1" onChange={updateQuant}></input>
-            <span>{currencyString(cost)}</span>
-            <span>{currencyString(total)}</span>
+            <span className="center-text">{currencyString(cost)}</span>
+            <span className="center-text">{currencyString(total)}</span>
             <hr />
         </div>
     );

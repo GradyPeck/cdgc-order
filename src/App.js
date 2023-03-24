@@ -73,9 +73,13 @@ function App() {
         {myEntries}
         <h2 id='total-spacer'>Thank you for your support!</h2>
         <h2 id='total-label'>Total:</h2>
-        <h2 id="total-counter">$0.00</h2>
+        <h2 id="total-counter" className='center-text'>$0.00</h2>
       </main>
-      <button>Place Order</button>
+      <div className='button-group'>
+        <hr />
+        <button>PLACE ORDER</button>
+        <hr />
+      </div>
     </form>
   );
 }
