@@ -1,45 +1,174 @@
+/* 
+TODO: Fonts
+Calibri (mostly 16pt), largest heading 20pt
+*/
+
 * {
   box-sizing: border-box;
+  font-size: 16pt;
+  --mid-grey: #969696;
+}
+
+body {
+  margin: 10px auto;
+  width: 100vw;
+  max-width: 800px;
+}
+
+span {
+  margin-top: auto;
+}
+
+input {
+  font-size: 14pt;
 }
 
 header {
   text-align: center;
-  margin-bottom: 20px;
+  margin: 20px 20px;
+}
+
+h1 {
+  font-size: 20pt;
 }
 
 h1, h2, h4{
   margin: 0;
 }
 
+.cat-name {
+  color: red;
+  font-size: 16pt;
+  margin-top: 8px;
+  margin-left: 8px;
+}
+
 .main-grid {
   display: grid;
-  grid-template-columns: 40vw repeat(4, 15vw);
+  grid-template-columns: calc(60vw - 20px) repeat(4, 10vw);
+  column-gap: 5px;
 }
 
 .grid-banner {
   grid-column-start: 1;
   grid-column-end: -1;
-  margin: auto;
+  margin: 0px;
+  background-color: var(--mid-grey);
+  text-align: center;
+}
+
+#grid-heading-spacer {
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 
 .grid-heading {
   margin: auto 0px;
+  text-align: center;
 }
 
 .at-Left {
   grid-column-start: 1;
 }
 
-.indentedItem {
+.indented-item {
   padding-left: 20px;
 }
 
-.formRow {
-  display: flex;
-  justify-content: space-around;
-  height: 3vh;
+.loose-item {
+  padding-left: 8px;
 }
 
-.formRow input {
-  width: 40vw;
+.unit {
+  text-align: right;
+}
+
+.quant-input {
+  margin: 0px;
+  vertical-align: bottom;
+  border-bottom: none;
+  padding-left: 2px;
+  background-color: silver;
+}
+
+hr {
+  grid-column-start: 1;
+  grid-column-end: -1;
+  width: 100%;
+  margin: 0px;
+}
+
+.contact-row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.contact-row input {
+  width: 40%;
+  height: 3vh;
+  min-height: 25px;
+  margin: 2px;
+}
+
+#total-spacer {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  text-align: center;
+}
+
+#total-counter {
+  margin-left: -6px;
+}
+
+#total-label, #total-counter {
+  font-size: 20pt;
+}
+
+button {
+  display: block;
+  margin: 10px auto;
+  min-width: 70px;
+}
+
+@media (min-width: 800px) {
+  .main-grid {
+    grid-template-columns: 460px repeat(4, 80px);
+  }
+}
+
+@media (max-width: 700px) {
+  .main-grid {
+    grid-template-columns: repeat(2, 15vw) repeat(2, calc(35vw - 7.5px));
+  }
+  .indented-item, .loose-item, .at-Left {
+    grid-column-start: 1;
+    grid-column-end: -1;
+  }
+  .cat-name, .indented-item, .loose-item {
+    text-align: center;
+    margin-left: 0px;
+    padding-left: 0px;
+  }
+  .contact-row {
+    flex-wrap: wrap;
+  }
+  .contact-row input {
+    width: 100vw;
+  }
+  #grid-heading-spacer {
+    grid-column-end: 1;
+  }
+  #total-spacer {
+    grid-column-end: 3;
+  }
+  span, .grid-heading, h2 {
+    text-align: center;
+  }
+  #total-label {
+    text-align: right;
+  }
+  #total-label, #total-counter {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 }

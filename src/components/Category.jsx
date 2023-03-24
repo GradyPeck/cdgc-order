@@ -6,7 +6,7 @@ export default function Category({name, itemList, indent, update}) {
 
     return (
         <div className="at-Left" >
-            <h4>{name}</h4>
+            <h4 className="cat-name">{name}</h4>
             {myItems}
         </div>
     );
