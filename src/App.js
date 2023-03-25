@@ -3,8 +3,15 @@ import Category from './components/Category';
 import Item from './components/Item';
 import { currencyString } from './util';
 import { plantData } from './data/plants';
+import { useRef } from 'react';
 
 function App() {
+
+  const firstNameInput = useRef(null);
+  const lastNameInput = useRef(null);
+  const phoneInput = useRef(null);
+  const emailInput = useRef(null);
+  const totalOutput = useRef(null);
 
   const myQuants = {};
 
@@ -22,40 +29,61 @@ function App() {
 
   function updateQuant(name, quant, cost) {
     if(quant || myQuants[name] != null) {
-      myQuants[name] = [quant * cost, quant];
+      myQuants[name] = [quant, quant * cost];
       console.log(myQuants);
       let sum = 0;
       for(const key in myQuants) {
-        console.log(key, " : ", myQuants[key][0]);
-        sum += myQuants[key][0];
+        console.log(key, " : ", myQuants[key][1]);
+        sum += myQuants[key][1];
       }
       console.log("TOTAL: ", sum);
-      const totalCounter = document.getElementById("total-counter");
-      totalCounter.innerText = currencyString(sum);
+      totalOutput.current.innerText = currencyString(sum);
     }
   }
 
   function finalizeQuant(e) {
     e.preventDefault();
     let sum = 0;
+    let summary = "Order Summary:";
     for(const key in myQuants) {
-      sum += myQuants[key][0];
-      if(!myQuants[key][1]) delete myQuants[key];
+      sum += myQuants[key][1];
+      if(!myQuants[key][0]) delete myQuants[key];
+      else summary += `\n${myQuants[key][0]} ${key} - ${currencyString(myQuants[key][1])}`;
     }
-    console.log("MYQUANTS: ", myQuants);
-    console.log(JSON.stringify(myQuants));
-    window.confirm(`Your order total is ${currencyString(sum)}. Confirm order?`);
+    
+    let csv = JSON.stringify(myQuants);
+    csv = csv.replaceAll("{", "");
+    csv = csv.replaceAll("}", "");
+    csv = csv.replaceAll(":[", ",");
+    csv = csv.replaceAll("],", "\n");
+    csv = csv.replaceAll("]", "");
+    csv = `${firstNameInput.current.value},${lastNameInput.current.value},${phoneInput.current.value},${emailInput.current.value}\n` + csv;
+    console.log(csv);
+
+    console.log(summary);
+    if(window.confirm(`${summary}\n\nYour order total is ${currencyString(sum)}. Confirm order?`)) window.alert(csv);
   }
+
+  /*
+    {"Large Geranium Deck Pots: All White":[2400,1],"Geraniums: Pink / Neon Rose":[750,2]}
+
+    "Large Geranium Deck Pots: All White",2400,1
+    "Geraniums: Pink / Neon Rose",750,2
+
+    "Large Geranium Deck Pots: All Orange",5,12000
+    "Geraniums: Hot Magenta / Cranberry Sizzle",1,375
+    "Creeping Jenny",3,1050
+  */
 
   return (
     <form id="myForm" onSubmit={finalizeQuant}>
       <div className='contact-row'>
-        <input type='text' placeholder='Last Name' required></input>
-        <input type='text' placeholder='First Name' required></input>
+        <input type='text' ref={firstNameInput} placeholder='Last Name' required></input>
+        <input type='text' ref={lastNameInput} placeholder='First Name' required></input>
       </div>
       <div className='contact-row'>
-        <input type='tel' placeholder='Phone #' required></input>
-        <input type='email' placeholder='Email' required></input>
+        <input type='tel' ref={phoneInput} placeholder='Phone #'required></input>
+        <input type='email' ref={emailInput} placeholder='Email' required></input>
       </div>
       <header>
         <h1>2023 County Downs Garden Club Plant Sale</h1>
@@ -73,7 +101,7 @@ function App() {
         {myEntries}
         <h2 id='total-spacer'>Thank you for your support!</h2>
         <h2 id='total-label'>Total:</h2>
-        <h2 id="total-counter" className='center-text'>$0.00</h2>
+        <h2 id="total-counter" ref={totalOutput} className='center-text'>$0.00</h2>
       </main>
       <div className='button-group'>
         <hr />

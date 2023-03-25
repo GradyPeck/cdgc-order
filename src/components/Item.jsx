@@ -4,12 +4,15 @@ import { currencyString } from "../util";
 export default function Item({entry, indent, update}) {
     const[quant, setQuant] = useState(0);
     const[total, setTotal] = useState(0);
-    const {name, unit, cost} = entry;
+    const {cat, name, unit, cost} = entry;
 
     useEffect(() => {
         setTotal(quant * cost);
-        update(name, quant, cost);
-    }, [quant, cost, name, update]);
+        let longName = "";
+        if(cat) longName = `${cat}: `;
+        longName = longName + name;
+        update(longName, quant, cost);
+    }, [quant, cost, name, cat, update]);
 
     function validateInt(input) {
         const output = Number.parseInt(input);
@@ -27,7 +30,7 @@ export default function Item({entry, indent, update}) {
             <span className="unit">{unit}</span>
             <input className="quant-input" type="number" min="0" step="1" onChange={updateQuant}></input>
             <span className="center-text">{currencyString(cost)}</span>
-            <span className="center-text">{currencyString(total)}</span>
+            <span className="center-text">{total ? currencyString(total) : ""}</span>
             <hr />
         </div>
     );

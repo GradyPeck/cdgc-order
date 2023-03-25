@@ -2,7 +2,11 @@ import Item from "./Item";
 
 export default function Category({name, itemList, indent, update}) {
 
-    const myItems = itemList.map((datum, i) => <Item key={i} entry={datum} indent={indent} update={update} />);
+    const myItems = itemList.map((datum, i) => {
+        let datumPlus = Object.assign({}, datum);
+        datumPlus["cat"] = name;
+        return <Item key={i} entry={datumPlus} indent={indent} update={update} />
+    });
 
     return (
         <div className="at-Left" >
