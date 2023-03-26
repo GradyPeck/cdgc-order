@@ -31,13 +31,10 @@ function App() {
   function updateQuant(name, quant, cost) {
     if(quant || myQuants[name] != null) {
       myQuants[name] = [quant, quant * cost];
-      // console.log(myQuants);
       let sum = 0;
       for(const key in myQuants) {
-        // console.log(key, " : ", myQuants[key][1]);
         sum += myQuants[key][1];
       }
-      // console.log("TOTAL: ", sum);
       totalOutput.current.innerText = currencyString(sum);
     }
   }
