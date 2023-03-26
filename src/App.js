@@ -4,6 +4,7 @@ import Item from './components/Item';
 import { currencyString } from './util';
 import { plantData } from './data/plants';
 import { useRef } from 'react';
+import emailjs from '@emailjs/browser';
 
 function App() {
 
@@ -30,13 +31,13 @@ function App() {
   function updateQuant(name, quant, cost) {
     if(quant || myQuants[name] != null) {
       myQuants[name] = [quant, quant * cost];
-      console.log(myQuants);
+      // console.log(myQuants);
       let sum = 0;
       for(const key in myQuants) {
-        console.log(key, " : ", myQuants[key][1]);
+        // console.log(key, " : ", myQuants[key][1]);
         sum += myQuants[key][1];
       }
-      console.log("TOTAL: ", sum);
+      // console.log("TOTAL: ", sum);
       totalOutput.current.innerText = currencyString(sum);
     }
   }
@@ -58,22 +59,32 @@ function App() {
     csv = csv.replaceAll("],", "\n");
     csv = csv.replaceAll("]", "");
     csv = `${firstNameInput.current.value},${lastNameInput.current.value},${phoneInput.current.value},${emailInput.current.value}\n` + csv;
-    console.log(csv);
+    csv = window.btoa(csv);
 
-    console.log(summary);
-    if(window.confirm(`${summary}\n\nYour order total is ${currencyString(sum)}. Confirm order?`)) window.alert(csv);
+    if(window.confirm(`${summary}\n\nYour order total is ${currencyString(sum)}. Confirm order?`)) {
+
+      summary = `${summary}\n\nOrder Total: ${currencyString(sum)}`;
+
+      sendEmail('template_cj6ncrr', {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`,CSV_content: csv});
+      
+      let templateParams = {
+        order_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`,
+        email_body: summary,
+        order_email: emailInput.current.value
+      };
+
+      window.setTimeout(sendEmail('template_u3adivs', templateParams), 1200);
+    }
   }
 
-  /*
-    {"Large Geranium Deck Pots: All White":[2400,1],"Geraniums: Pink / Neon Rose":[750,2]}
-
-    "Large Geranium Deck Pots: All White",2400,1
-    "Geraniums: Pink / Neon Rose",750,2
-
-    "Large Geranium Deck Pots: All Orange",5,12000
-    "Geraniums: Hot Magenta / Cranberry Sizzle",1,375
-    "Creeping Jenny",3,1050
-  */
+  function sendEmail(template, myParams) {
+    emailjs.send('service_uovy849', template, myParams, "9HHIR7RW6edIq2hG-")
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+      }, (error) => {
+        console.log('FAILED...', error);
+      });
+  }
 
   return (
     <form id="myForm" onSubmit={finalizeQuant}>
