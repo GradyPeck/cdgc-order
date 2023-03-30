@@ -42,21 +42,21 @@ export const plantData = [
     {"name": "Purple Fountain Grass", "unit": "Plants", "cost": 700},
     {"name": "Caladium", "subname": " - White with Green Vein", "unit": "Plants", "cost": 600},
     {
+        "Sunpatiens" : [
+            {"name": "Deep Rose", "unit": "Plants", "cost": 450},
+            {"name": "Orange", "unit": "Plants", "cost": 450},
+            {"name": "Magenta", "unit": "Plants", "cost": 450},
+            {"name": "White", "unit": "Plants", "cost": 450}
+        ],
+        "indent" : true
+    },
+    {
         "Geraniums" : [
             {"name": "Red", "unit": "Plants", "cost": 375},
             {"name": "White", "unit": "Plants", "cost": 375},
             {"name": "Neon Rose", "subname": " - Pink", "unit": "Plants", "cost": 375},
             {"name": "Strawberry Sizzle", "subname": " - Dark Pink", "unit": "Plants", "cost": 375},
             {"name": "Cranberry Sizzle", "subname": " - Hot Magenta", "unit": "Plants", "cost": 375}
-        ],
-        "indent" : true
-    },
-    {
-        "Sunpatiens" : [
-            {"name": "Deep Rose", "unit": "Plants", "cost": 450},
-            {"name": "Orange", "unit": "Plants", "cost": 450},
-            {"name": "Magenta", "unit": "Plants", "cost": 450},
-            {"name": "White", "unit": "Plants", "cost": 450}
         ],
         "indent" : true
     },

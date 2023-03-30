@@ -6,7 +6,6 @@ Calibri (mostly 16pt), largest heading 20pt
 * {
   box-sizing: border-box;
   font-size: 16pt;
-  --mid-grey: #969696;
 }
 
 body {
@@ -26,6 +25,10 @@ input {
 header {
   text-align: center;
   margin: 20px 20px;
+}
+
+.redder {
+  color: red;
 }
 
 h1 {
@@ -53,7 +56,7 @@ h1, h2, h4{
   grid-column-start: 1;
   grid-column-end: -1;
   margin: 0px;
-  background-color: var(--mid-grey);
+  background-color: silver;
   text-align: center;
 }
 
@@ -132,8 +135,10 @@ hr {
   display: flex;
   align-items: center;
   margin: 20px 0px;
+  position: sticky;
+  bottom: 0px;
+  background-color: white;
 }
-
 
 button {
   display: block;
@@ -172,7 +177,7 @@ button {
   #total-spacer {
     grid-column-end: 3;
   }
-  span, .grid-heading, h2 {
+  input span, .grid-heading, h2 {
     text-align: center;
   }
   #total-label {
