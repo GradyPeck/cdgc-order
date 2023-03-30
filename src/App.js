@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import Category from './components/Category';
 import Item from './components/Item';
 import { currencyString } from './util';
@@ -86,9 +87,6 @@ function App() {
   }
 
   return (
-    <Router>
-        <Routes>
-          <Route path="/" element={
             <form id="myForm" onSubmit={finalizeQuant}>
               <div className='contact-row'>
                 <input type='text' ref={firstNameInput} placeholder='Last Name' required></input>
@@ -123,10 +121,6 @@ function App() {
                 <hr />
               </div>
             </form>
-          }/>
-          <Route path="/done" element={<h1>Thank you for ordering!</h1>} />
-        </Routes>
-      </Router>
   );
 }
 
