@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/cdgc-order/static/css/main.514e90cc.css",
+    "main.js": "/cdgc-order/static/js/main.d46fcded.js",
+    "static/js/787.4076cd2a.chunk.js": "/cdgc-order/static/js/787.4076cd2a.chunk.js",
+    "index.html": "/cdgc-order/index.html",
+    "main.514e90cc.css.map": "/cdgc-order/static/css/main.514e90cc.css.map",
+    "main.d46fcded.js.map": "/cdgc-order/static/js/main.d46fcded.js.map",
+    "787.4076cd2a.chunk.js.map": "/cdgc-order/static/js/787.4076cd2a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.514e90cc.css",
+    "static/js/main.d46fcded.js"
+  ]
+}
