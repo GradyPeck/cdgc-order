@@ -6,7 +6,6 @@ import { currencyString } from './util';
 import { plantData } from './data/plants';
 import { useRef } from 'react';
 import emailjs from '@emailjs/browser';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
 
@@ -72,12 +71,18 @@ function App() {
         order_email: emailInput.current.value
       };
 
-      window.setTimeout(sendEmail('template_u3adivs', templateParams), 800);
-      // window.setTimeout(window.location.assign("/done"), 1500);
+      //after one second, send the second email. When it returns pop the thank-you message, then reload the page when message is closed. 
+      window.setTimeout(
+        sendEmail('template_u3adivs', templateParams)
+        .then(window.alert(`Thanks for your order! It has been successfully submitted.
+        \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
+        \nQuestions? Call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`))
+        .then(window.location.reload()),
+      1000);
     }
   }
 
-  function sendEmail(template, myParams) {
+  async function sendEmail(template, myParams) {
     emailjs.send('service_uovy849', template, myParams, "9HHIR7RW6edIq2hG-")
       .then((response) => {
         console.log('SUCCESS!', response.status, response.text);
@@ -93,7 +98,7 @@ function App() {
         <input type='text' ref={lastNameInput} placeholder='First Name' required></input>
       </div>
       <div className='contact-row'>
-        <input type='tel' ref={phoneInput} placeholder='Phone #'required></input>
+        <input type='tel' ref={phoneInput} placeholder='Phone #' required></input>
         <input type='email' ref={emailInput} placeholder='Email' required></input>
       </div>
       <header>
