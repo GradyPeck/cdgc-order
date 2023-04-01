@@ -50,16 +50,16 @@ function App() {
       else summary += `\n${myQuants[key][0]} ${key} - ${currencyString(myQuants[key][1])}`;
     }
     
-    let csv = JSON.stringify(myQuants);
-    csv = csv.replaceAll("{", "");
-    csv = csv.replaceAll("}", "");
-    csv = csv.replaceAll(":[", ",");
-    csv = csv.replaceAll("],", "\n");
-    csv = csv.replaceAll("]", "");
-    csv = `${firstNameInput.current.value},${lastNameInput.current.value},${phoneInput.current.value},${emailInput.current.value}\n` + csv;
-    csv = window.btoa(csv);
-
     if(window.confirm(`${summary}\n\nYour order total is ${currencyString(sum)}. Confirm order?`)) {
+
+      let csv = JSON.stringify(myQuants);
+      csv = csv.replaceAll("{", "");
+      csv = csv.replaceAll("}", "");
+      csv = csv.replaceAll(":[", ",");
+      csv = csv.replaceAll("],", "\n");
+      csv = csv.replaceAll("]", "");
+      csv = `${firstNameInput.current.value},${lastNameInput.current.value},${phoneInput.current.value},${emailInput.current.value}\n` + csv;
+      csv = window.btoa(csv);
 
       summary = `${summary}\n\nOrder Total: ${currencyString(sum)}`;
 
@@ -94,8 +94,8 @@ function App() {
   return (
     <form id="myForm" onSubmit={finalizeQuant}>
       <div className='contact-row'>
-        <input type='text' ref={firstNameInput} placeholder='Last Name' required></input>
-        <input type='text' ref={lastNameInput} placeholder='First Name' required></input>
+        <input type='text' ref={lastNameInput} placeholder='Last Name' required></input>
+        <input type='text' ref={firstNameInput} placeholder='First Name' required></input>
       </div>
       <div className='contact-row'>
         <input type='tel' ref={phoneInput} placeholder='Phone #' required></input>
