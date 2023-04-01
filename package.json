@@ -1,6 +1,7 @@
 {
   "name": "cdgc-order",
   "version": "0.1.0",
+  "homepage": "https://gradypeck.github.io/cdgc-order",
   "private": true,
   "dependencies": {
     "@emailjs/browser": "^3.10.0",
