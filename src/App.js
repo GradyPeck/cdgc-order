@@ -40,8 +40,10 @@ function App() {
     }
   }
 
-  function finalizeQuant(e) {
+  function submitOrder(e) {
     e.preventDefault();
+
+    //prune zero-quantity items and total up cost
     let sum = 0;
     let summary = "Order Summary:";
     for(const key in myQuants) {
@@ -49,9 +51,17 @@ function App() {
       if(!myQuants[key][0]) delete myQuants[key];
       else summary += `\n${myQuants[key][0]} ${key} - ${currencyString(myQuants[key][1])}`;
     }
-    
+
+    //prevent empty orders
+    if(Object.keys(myQuants).length === 0) {
+      alert("It looks like you're trying to submit an empty order. Please type the number of plants you want into the quantity blanks and try again!");
+      return;
+    }
+
+    //show order summary and prompt for confirmation
     if(window.confirm(`${summary}\n\nYour order total is ${currencyString(sum)}. Confirm order?`)) {
 
+      //create CSV to send to Justina
       let csv = JSON.stringify(myQuants);
       csv = csv.replaceAll("{", "");
       csv = csv.replaceAll("}", "");
@@ -61,10 +71,13 @@ function App() {
       csv = `${firstNameInput.current.value},${lastNameInput.current.value},${phoneInput.current.value},${emailInput.current.value}\n` + csv;
       csv = window.btoa(csv);
 
+      //add total line to summary
       summary = `${summary}\n\nOrder Total: ${currencyString(sum)}`;
 
-      sendEmail('template_cj6ncrr', {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`,CSV_content: csv});
+      //send CSV email
+      sendEmail('template_cj6ncrr', {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: summary, CSV_content: csv});
       
+      //setting up params for second email
       let templateParams = {
         order_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`,
         email_body: summary,
@@ -91,8 +104,14 @@ function App() {
       });
   }
 
+  function noSubmit(e) {
+    if (e.code === "Enter") {
+      e.preventDefault();
+    }
+  }
+
   return (
-    <form id="myForm" onSubmit={finalizeQuant}>
+    <form id="myForm" onSubmit={submitOrder} onKeyDown={noSubmit}>
       <div className='contact-row'>
         <input type='text' ref={lastNameInput} placeholder='Last Name' required></input>
         <input type='text' ref={firstNameInput} placeholder='First Name' required></input>
@@ -103,7 +122,7 @@ function App() {
       </div>
       <header>
         <h1>2023 County Downs Garden Club Plant Sale</h1>
-        <h2>Orders are due by <span className='redder'>May 1st</span></h2>
+        <h2>Orders are due by <span className='redder'>May 1st.</span></h2>
         <h2>Plant order pick up will be <span className='redder'>May 18th and 19th.</span></h2>
         <h2>You will be contacted to choose a pick up time.</h2>
         <h2>Location:  Justina's House, 8149 Hendrie, Huntington Woods</h2>
@@ -117,13 +136,14 @@ function App() {
         <h4 className='grid-heading'>Total</h4>
         {myEntries}
         <h2 id='total-spacer'>Thank you for your support!</h2>
-        <h2 id='total-label'>Total:</h2>
-        <h2 id="total-counter" ref={totalOutput} className='center-text'>$0.00</h2>
       </main>
       <div className='button-group'>
         <hr />
         <button>PLACE ORDER</button>
         <hr />
+        <h2 id='total-label'>Total:</h2>
+        <h2 id="total-counter" ref={totalOutput} className='center-text'>$0.00</h2>
+        <hr id='final-spacer'/>
       </div>
     </form>
   );

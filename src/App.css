@@ -1,8 +1,3 @@
-/* 
-TODO: Fonts?
-Calibri (mostly 16pt), largest heading 20pt
-*/
-
 * {
   box-sizing: border-box;
   font-size: 16pt;
@@ -119,12 +114,8 @@ hr {
 
 #total-spacer {
   grid-column-start: 1;
-  grid-column-end: 4;
+  grid-column-end: -1;
   text-align: center;
-}
-
-#total-label {
-  text-align: right;
 }
 
 #total-spacer, #total-label, #total-counter {
@@ -144,6 +135,10 @@ button {
   display: block;
   margin: 10px auto;
   min-width: fit-content;
+}
+
+#final-spacer {
+  width: 20px;
 }
 
 @media (min-width: 800px) {
@@ -174,14 +169,8 @@ button {
   #grid-heading-spacer {
     grid-column-end: 1;
   }
-  #total-spacer {
-    grid-column-end: 3;
-  }
   input span, .grid-heading, h2 {
     text-align: center;
-  }
-  #total-label {
-    text-align: right;
   }
   #total-label, #total-counter {
     margin-top: auto;
