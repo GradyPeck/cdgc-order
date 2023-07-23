@@ -45,11 +45,11 @@ function App() {
 
     //prune zero-quantity items and total up cost
     let sum = 0;
-    let summary = "Order Summary:";
+    let summary = "Your Shopping Cart:";
     for(const key in myQuants) {
       sum += myQuants[key][1];
       if(!myQuants[key][0]) delete myQuants[key];
-      else summary += `\n${myQuants[key][0]} ${key} - ${currencyString(myQuants[key][1])}`;
+      else summary += `\n    ${myQuants[key][0]} ${key} - ${currencyString(myQuants[key][1])}`;
     }
 
     //prevent empty orders
@@ -59,7 +59,7 @@ function App() {
     }
 
     //show order summary and prompt for confirmation
-    if(window.confirm(`${summary}\n\nYour order total is ${currencyString(sum)}. Confirm order?`)) {
+    if(window.confirm(`${summary}\n\nYour order total is ${currencyString(sum)}. \nPLACE ORDER?`)) {
 
       //create CSV to send to Justina
       let csv = JSON.stringify(myQuants);
@@ -74,8 +74,18 @@ function App() {
       //add total line to summary
       summary = `${summary}\n\nOrder Total: ${currencyString(sum)}`;
 
-      //send CSV email
-      sendEmail('template_cj6ncrr', {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: summary, CSV_content: csv});
+      //array to collect the email.js promise returns
+      let emailReturns = [];
+
+      //send CSV email and collect returned promise
+      emailReturns.push(
+        emailjs.send(
+          'service_uovy849', 
+          'template_cj6ncrr', 
+          {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: summary, CSV_content: csv}, 
+          "9HHIR7RW6edIq2hG-"
+        )
+      );
       
       //setting up params for second email
       let templateParams = {
@@ -84,24 +94,25 @@ function App() {
         order_email: emailInput.current.value
       };
 
-      //after one second, send the second email. When it returns pop the thank-you message, then reload the page when message is closed. 
+      //after one second, send the second email and collect the returned promise 
       window.setTimeout(
-        sendEmail('template_u3adivs', templateParams)
-        .then(window.alert(`Thanks for your order! It has been successfully submitted.
-        \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
-        \nQuestions? Call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`))
-        .then(window.location.reload()),
+        () => {emailReturns.push(
+          emailjs.send(
+            'service_uovy849', 
+            'template_u3adivs', 
+            templateParams, 
+            "9HHIR7RW6edIq2hG-"
+          )
+        )},
       1000);
-    }
-  }
 
-  async function sendEmail(template, myParams) {
-    emailjs.send('service_uovy849', template, myParams, "9HHIR7RW6edIq2hG-")
-      .then((response) => {
-        console.log('SUCCESS!', response.status, response.text);
-      }, (error) => {
-        console.log('FAILED...', error);
-      });
+      Promise.all(emailReturns)
+      .then(() => {window.alert(`Thanks for your order! It has been submitted.
+        \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
+        \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`);
+        window.location.reload();})
+      .catch(() => {window.alert("Sorry, we are unable to process your order online!\n\nPlease call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764")});
+    }
   }
 
   function noSubmit(e) {
@@ -113,8 +124,8 @@ function App() {
   return (
     <form id="myForm" onSubmit={submitOrder} onKeyDown={noSubmit}>
       <div className='contact-row'>
-        <input type='text' ref={lastNameInput} placeholder='Last Name' required></input>
         <input type='text' ref={firstNameInput} placeholder='First Name' required></input>
+        <input type='text' ref={lastNameInput} placeholder='Last Name' required></input>
       </div>
       <div className='contact-row'>
         <input type='tel' ref={phoneInput} placeholder='Phone #' required></input>
@@ -139,7 +150,7 @@ function App() {
       </main>
       <div className='button-group'>
         <hr />
-        <button>PLACE ORDER</button>
+        <button>REVIEW YOUR ORDER</button>
         <hr />
         <h2 id='total-label'>Total:</h2>
         <h2 id="total-counter" ref={totalOutput} className='center-text'>$0.00</h2>
