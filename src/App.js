@@ -117,7 +117,10 @@ function App() {
         \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
         \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`);
         window.location.reload();})
-      .catch(() => {window.alert("Sorry, we are unable to process your order online!\n\nPlease call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764")});
+      .catch(() => {
+        loadingBox.current.style["display"] = "none";
+        window.alert("Sorry, we are unable to process your order online!\n\nPlease call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764");
+      });
     }
   }
 
