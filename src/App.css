@@ -141,6 +141,26 @@ button {
   width: 20px;
 }
 
+#loading-box {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 47vh;
+  left: 40vw;
+  height: 6vh;
+  width: 20vw;
+  min-width: 200px;
+  min-height: 50px;
+  text-align: center;
+  background-color: silver;
+  border: 1px solid black;
+}
+
+#loading-box p {
+  margin: 0px;
+}
+
 @media (min-width: 800px) {
   .main-grid {
     grid-template-columns: 460px repeat(4, 80px);

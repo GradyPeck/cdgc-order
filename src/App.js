@@ -14,6 +14,7 @@ function App() {
   const phoneInput = useRef(null);
   const emailInput = useRef(null);
   const totalOutput = useRef(null);
+  const loadingBox = useRef(null);
 
   const myQuants = {};
 
@@ -45,7 +46,7 @@ function App() {
 
     //prune zero-quantity items and total up cost
     let sum = 0;
-    let summary = "Your Shopping Cart:";
+    let summary = "";
     for(const key in myQuants) {
       sum += myQuants[key][1];
       if(!myQuants[key][0]) delete myQuants[key];
@@ -59,7 +60,7 @@ function App() {
     }
 
     //show order summary and prompt for confirmation
-    if(window.confirm(`${summary}\n\nYour order total is ${currencyString(sum)}. \nPLACE ORDER?`)) {
+    if(window.confirm(`Your Shopping Cart:${summary}\n\nYour order total is ${currencyString(sum)}. \nPLACE ORDER?`)) {
 
       //create CSV to send to Justina
       let csv = JSON.stringify(myQuants);
@@ -68,7 +69,7 @@ function App() {
       csv = csv.replaceAll(":[", ",");
       csv = csv.replaceAll("],", "\n");
       csv = csv.replaceAll("]", "");
-      csv = `${firstNameInput.current.value},${lastNameInput.current.value},${phoneInput.current.value},${emailInput.current.value}\n` + csv;
+      csv = `${firstNameInput.current.value},${lastNameInput.current.value},${phoneInput.current.value},${emailInput.current.value},${currencyString(sum)}\n` + csv;
       csv = window.btoa(csv);
 
       //add total line to summary
@@ -82,32 +83,37 @@ function App() {
         emailjs.send(
           'service_uovy849', 
           'template_cj6ncrr', 
-          {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: summary, CSV_content: csv}, 
+          {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: `Order Summary: ${summary}`, CSV_content: csv}, 
           "9HHIR7RW6edIq2hG-"
         )
       );
+
+      loadingBox.current.style["display"] = "flex";
       
       //setting up params for second email
       let templateParams = {
         order_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`,
-        email_body: summary,
+        email_body: `Order Summary: ${summary}`,
         order_email: emailInput.current.value
       };
 
       //after one second, send the second email and collect the returned promise 
       window.setTimeout(
-        () => {emailReturns.push(
-          emailjs.send(
-            'service_uovy849', 
-            'template_u3adivs', 
-            templateParams, 
-            "9HHIR7RW6edIq2hG-"
-          )
-        )},
+        () => {
+          emailReturns.push(
+            emailjs.send(
+              'service_uovy849', 
+              'template_u3adivs', 
+              templateParams, 
+              "9HHIR7RW6edIq2hG-"
+            )
+          );
+        },
       1000);
 
       Promise.all(emailReturns)
-      .then(() => {window.alert(`Thanks for your order! It has been submitted.
+      .then(() => {loadingBox.current.style["display"] = "none";
+        window.alert(`Thanks for your order! It has been submitted.
         \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
         \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`);
         window.location.reload();})
@@ -155,6 +161,9 @@ function App() {
         <h2 id='total-label'>Total:</h2>
         <h2 id="total-counter" ref={totalOutput} className='center-text'>$0.00</h2>
         <hr id='final-spacer'/>
+      </div>
+      <div id="loading-box" ref={loadingBox}>
+        <p>Processing! Please wait...</p>
       </div>
     </form>
   );
