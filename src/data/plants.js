@@ -32,15 +32,15 @@ export const plantData = [
         "Hanging Baskets" : [
             {"name": "Boston Fern", "unit": "Baskets", "cost": 1800},
             {"name": "Streptocarpus", "unit": "Baskets", "cost": 1800},
-            {"name": "Sunpatiens Hanging Baskets", "subname": " - Magenta", "unit": "Baskets", "cost": 1400}
+            {"name": "Sunpatiens Hanging Baskets", "subname": " - Magenta", "unit": "Baskets", "cost": 1500}
         ],
         "indent" : false
     },
     {
-        "Calliope Geranium Hanging Baskets (Ivy)" : [
-            {"name": "Red", "unit": "Baskets", "cost": 1400},
-            {"name": "Lavender Rose", "unit": "Baskets", "cost": 1400},
-            {"name": "Crimson Flame", "subname": " - Bi-color Red/Hot Pink", "unit": "Baskets", "cost": 1400}
+        "Calliope Geranium Hanging Baskets" : [
+            {"name": "Red", "unit": "Baskets", "cost": 1500},
+            {"name": "Lavender Rose", "unit": "Baskets", "cost": 1500},
+            {"name": "Crimson Flame", "subname": " - Bi-color Red/Hot Pink", "unit": "Baskets", "cost": 1500}
         ],
         "indent" : true
     },
@@ -68,13 +68,13 @@ export const plantData = [
     },
     {
         "Sweet Potato Vines" : [
-            {"name": "Margarita", "unit": "Plants", "cost": 350},
-            {"name": "Tri-Color", "unit": "Plants", "cost": 350},
-            {"name": "Ace of Spades", "unit": "Plants", "cost": 350}
+            {"name": "Margarita", "unit": "Plants", "cost": 400},
+            {"name": "Tri-Color", "unit": "Plants", "cost": 400},
+            {"name": "Ace of Spades", "unit": "Plants", "cost": 400}
         ],
         "indent" : true
     },
-    {"name": "Vinca Vine", "unit": "Plants", "cost": 350},
-    {"name": "Creeping Jenny", "unit": "Plants", "cost": 350},
-    {"name": "Spikes", "unit": "Plants", "cost": 350}
+    {"name": "Vinca Vine", "unit": "Plants", "cost": 375},
+    {"name": "Creeping Jenny", "unit": "Plants", "cost": 375},
+    {"name": "Spikes", "unit": "Plants", "cost": 375}
 ];

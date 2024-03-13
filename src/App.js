@@ -141,9 +141,9 @@ function App() {
         <input type='email' ref={emailInput} placeholder='Email' required></input>
       </div>
       <header>
-        <h1>2023 County Downs Garden Club Plant Sale</h1>
+        <h1>2024 County Downs Garden Club Plant Sale</h1>
         <h2>Orders are due by <span className='redder'>May 1st.</span></h2>
-        <h2>Plant order pick up will be <span className='redder'>May 18th and 19th.</span></h2>
+        <h2>Plant order pick up will be <span className='redder'>May 16th and 17th.</span></h2>
         <h2>You will be contacted to choose a pick up time.</h2>
         <h2>Location:  Justina's House, 8149 Hendrie, Huntington Woods</h2>
         <h2>Questions:  Call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764</h2>
