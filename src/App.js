@@ -105,7 +105,7 @@ function App() {
               'service_vbj6dhc', 
               'template_u3adivs', 
               templateParams, 
-              {publicKey: "1Pwmo3BHx-shOTe4M"}
+              {publicKey: '1Pwmo3BHx-shOTe4M'}
             )
           );
         },
