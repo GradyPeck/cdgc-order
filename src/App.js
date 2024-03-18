@@ -84,7 +84,7 @@ function App() {
           'service_uovy849', 
           'template_cj6ncrr', 
           {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: `Order Summary: ${summary}`, CSV_content: csv}, 
-          "9HHIR7RW6edIq2hG-"
+          "1Pwmo3BHx-shOTe4M"
         )
       );
 
@@ -105,7 +105,7 @@ function App() {
               'service_uovy849', 
               'template_u3adivs', 
               templateParams, 
-              "9HHIR7RW6edIq2hG-"
+              "1Pwmo3BHx-shOTe4M"
             )
           );
         },
