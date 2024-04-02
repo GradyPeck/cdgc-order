@@ -22,6 +22,7 @@ export const plantData = [
         ],
         "indent" : true
     },
+    {"name": "Deck Pot for Shade", "subname": " - Make Selection at Pickup",  "unit": "Pots", "cost": 2400},
     {
         "Hanging Baskets" : [
             {"name": "Boston Fern", "unit": "Baskets", "cost": 1800},
