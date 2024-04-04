@@ -41,17 +41,49 @@ function App() {
     }
   }
 
+  function summarize() {
+    let summary = "";
+
+    for (let datum of plantData) {
+      const keys = Object.keys(datum);
+      //for items outside of categories
+      if(keys.includes("name")) {
+        //write this item into summary if it appears in quants
+        if(Object.keys(myQuants).includes(datum["name"])) {
+          summary += `\n    ${myQuants[datum["name"]][0]} ${datum["name"]} - ${currencyString(myQuants[datum["name"]][1])}`;
+        }
+      }
+      else {
+        const catName = keys[0];
+        let writeCat = true;
+        for (let item of datum[catName]) {
+          const itemName = `${catName}: ${item["name"]}`
+          //write this item into summary if it appears in quants
+          if(Object.keys(myQuants).includes(itemName)) {
+            //the first time this triggers, write the category heading
+            if(writeCat) {
+              summary += `\n    ${catName}`
+              writeCat = false;
+            }
+            summary += `\n        ${myQuants[itemName][0]} ${item["name"]} - ${currencyString(myQuants[itemName][1])}`;
+          }
+        }
+      }
+    }
+    return summary;
+  }
+
   function submitOrder(e) {
     e.preventDefault();
 
     //prune zero-quantity items and total up cost
     let sum = 0;
-    let summary = "";
     for(const key in myQuants) {
       sum += myQuants[key][1];
       if(!myQuants[key][0]) delete myQuants[key];
-      else summary += `\n    ${myQuants[key][0]} ${key} - ${currencyString(myQuants[key][1])}`;
     }
+
+    let summary = summarize();
 
     //prevent empty orders
     if(Object.keys(myQuants).length === 0) {
