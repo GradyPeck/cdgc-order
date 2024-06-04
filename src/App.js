@@ -1,7 +1,8 @@
 import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
 import Category from './components/Category';
 import Item from './components/Item';
+import SummaryItem from './components/SummaryItem';
 import { currencyString } from './util';
 import { plantData } from './data/plants';
 import { useRef } from 'react';
@@ -15,6 +16,13 @@ function App() {
   const emailInput = useRef(null);
   const totalOutput = useRef(null);
   const loadingBox = useRef(null);
+  const summaryBkg = useRef(null);
+  const summaryBox = useRef(null);
+  const submitButton = useRef(null);
+
+  const [summaryItems, setSummaryItems] = useState([]);
+
+  let summary = "";
 
   const myQuants = {};
 
@@ -42,118 +50,156 @@ function App() {
   }
 
   function summarize() {
-    let summary = "";
+    summary = "";
+    let newSummaryItems = [];
 
-    for (let datum of plantData) {
-      const keys = Object.keys(datum);
-      //for items outside of categories
-      if(keys.includes("name")) {
-        //write this item into summary if it appears in quants
-        if(Object.keys(myQuants).includes(datum["name"])) {
-          summary += `\n    ${myQuants[datum["name"]][0]} ${datum["name"]} - ${currencyString(myQuants[datum["name"]][1])}`;
-        }
-      }
-      else {
-        const catName = keys[0];
-        let writeCat = true;
-        for (let item of datum[catName]) {
-          const itemName = `${catName}: ${item["name"]}`
+    //prevent empty orders
+    if(Object.keys(myQuants).length === 0) {
+      submitButton.current.disabled = true;
+      newSummaryItems = [
+        <h3 key="0">It looks like you're trying to submit an empty order.</h3>,
+        <h3 key="01">Please type the number of plants you want into the quantity blanks and try again!</h3>
+      ];
+    }//otherwise, summarize the order
+    else {
+      submitButton.current.disabled = false;
+      newSummaryItems = [<h3 key="1">Your Shopping Cart:</h3>];
+      for (let datum of plantData) {
+        const keys = Object.keys(datum);
+        //for items outside of categories
+        if(keys.includes("name")) {
           //write this item into summary if it appears in quants
-          if(Object.keys(myQuants).includes(itemName)) {
-            //the first time this triggers, write the category heading
-            if(writeCat) {
-              summary += `\n    ${catName}`
-              writeCat = false;
+          if(Object.keys(myQuants).includes(datum["name"])) {
+            updateSummary(`${myQuants[datum["name"]][0]} ${datum["name"]} - ${currencyString(myQuants[datum["name"]][1])}`, 1);
+          }
+        }
+        else {
+          const catName = keys[0];
+          let writeCat = true;
+          for (let item of datum[catName]) {
+            const itemName = `${catName}: ${item["name"]}`
+            //write this item into summary if it appears in quants
+            if(Object.keys(myQuants).includes(itemName)) {
+              //the first time this triggers, write the category heading
+              if(writeCat) {
+                updateSummary(catName, 1);
+                writeCat = false;
+              }
+              updateSummary(`${myQuants[itemName][0]} ${item["name"]} - ${currencyString(myQuants[itemName][1])}`, 2);
             }
-            summary += `\n        ${myQuants[itemName][0]} ${item["name"]} - ${currencyString(myQuants[itemName][1])}`;
           }
         }
       }
+      newSummaryItems.push(<h3 key="2">Your order total is {currencyString(sum)}.</h3>);
+      newSummaryItems.push(<h3 key="3">PLACE ORDER?</h3>);
     }
+
+    function updateSummary(myText, indents) {
+      //update the textual summary to send to EmailJS
+      summary += "\n";
+      for(let i = 0; i < indents; i++) {
+        if(i === 0) summary += "-";
+        summary += "\t";
+      }
+      summary += myText;
+  
+      //update the HTML summary to display in the review order modal
+      newSummaryItems.push(<SummaryItem key={myText} myText={myText} indents={indents} />);
+    }
+
+    setSummaryItems(newSummaryItems);
     return summary;
   }
+  
+  let sum = 0;
 
-  function submitOrder(e) {
+  function reviewOrder(e) {
     e.preventDefault();
 
     //prune zero-quantity items and total up cost
-    let sum = 0;
+    sum = 0;
     for(const key in myQuants) {
       sum += myQuants[key][1];
       if(!myQuants[key][0]) delete myQuants[key];
     }
 
-    let summary = summarize();
+    summary = summarize();
+    summaryBkg.current.style.visibility = "visible";
 
-    //prevent empty orders
-    if(Object.keys(myQuants).length === 0) {
-      alert("It looks like you're trying to submit an empty order. Please type the number of plants you want into the quantity blanks and try again!");
-      return;
-    }
+  }
 
-    //show order summary and prompt for confirmation
-    if(window.confirm(`Your Shopping Cart:${summary}\n\nYour order total is ${currencyString(sum)}. \nPLACE ORDER?`)) {
+  function hideSummary() {
+    summaryBkg.current.style.visibility = "collapse";
+  }
 
-      //create CSV to send to Justina
-      let csv = JSON.stringify(myQuants);
-      csv = csv.replaceAll("{", "");
-      csv = csv.replaceAll("}", "");
-      csv = csv.replaceAll(":[", ",");
-      csv = csv.replaceAll("],", "\n");
-      csv = csv.replaceAll("]", "");
-      csv = `${firstNameInput.current.value},${lastNameInput.current.value},${phoneInput.current.value},${emailInput.current.value},${currencyString(sum)}\n` + csv;
-      csv = window.btoa(csv);
+  function submitOrder() {
+    //create CSV to send to Justina
+    let csv = JSON.stringify(myQuants);
+    csv = csv.replaceAll("{", "");
+    csv = csv.replaceAll("}", "");
+    csv = csv.replaceAll(":[", ",");
+    csv = csv.replaceAll("],", "\n");
+    csv = csv.replaceAll("]", "");
+    csv = `${firstNameInput.current.value},${lastNameInput.current.value},${phoneInput.current.value},${emailInput.current.value},${currencyString(sum)}\n` + csv;
+    csv = window.btoa(csv);
 
-      //add total line to summary
-      summary = `${summary}\n\nOrder Total: ${currencyString(sum)}`;
+    //add total line to summary
+    summary = `${summary}\n\nOrder Total: ${currencyString(sum)}`;
 
-      //array to collect the email.js promise returns
-      let emailReturns = [];
+    //array to collect the email.js promise returns
+    let emailReturns = [];
 
-      //send CSV email and collect returned promise
-      emailReturns.push(
-        emailjs.send(
-          'service_vbj6dhc', 
-          'template_cj6ncrr', 
-          {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: `Order Summary: ${summary}`, CSV_content: csv}, 
-          "1Pwmo3BHx-shOTe4M"
-        )
-      );
+    //send CSV email and collect returned promise
+    emailReturns.push(
+      emailjs.send(
+        'service_vbj6dhc', 
+        'template_cj6ncrr', 
+        {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: `Order Summary: ${summary}`, CSV_content: csv}, 
+        "1Pwmo3BHx-shOTe4M"
+      )
+    );
 
-      loadingBox.current.style["display"] = "flex";
-      
-      //setting up params for second email
-      let templateParams = {
-        order_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`,
-        email_body: `Order Summary: ${summary}`,
-        order_email: emailInput.current.value
-      };
+    loadingBox.current.style["display"] = "flex";
+    
+    //setting up params for second email
+    let templateParams = {
+      order_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`,
+      email_body: `Order Summary: ${summary}`,
+      order_email: emailInput.current.value
+    };
 
-      //after one second, send the second email and collect the returned promise 
-      window.setTimeout(
-        () => {
-          emailReturns.push(
-            emailjs.send(
-              'service_vbj6dhc', 
-              'template_u3adivs', 
-              templateParams, 
-              "1Pwmo3BHx-shOTe4M"
-            )
-          );
-        },
-      1000);
+    //after one second, send the second email and collect the returned promise 
+    window.setTimeout(
+      () => {
+        emailReturns.push(
+          emailjs.send(
+            'service_vbj6dhc', 
+            'template_u3adivs', 
+            templateParams, 
+            "1Pwmo3BHx-shOTe4M"
+          )
+        );
+      },
+    1000);
 
-      Promise.all(emailReturns)
-      .then(() => {loadingBox.current.style["display"] = "none";
-        window.alert(`Thanks for your order! It has been submitted.
+    Promise.all(emailReturns)
+    .then(() => {loadingBox.current.style["display"] = "none";
+      summaryBox.current.innerHTML = 
+      <div>
+        <p>{`Thanks for your order! It has been submitted.
         \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
-        \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`);
-        window.location.reload();})
-      .catch(() => {
-        loadingBox.current.style["display"] = "none";
-        window.alert("Sorry, we are unable to process your order online!\n\nPlease call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764");
-      });
-    }
+        \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`}</p>
+        <button onClick={window.location.reload()}>Close</button>
+      </div>
+      // window.alert(`Thanks for your order! It has been submitted.
+      // \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
+      // \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`);
+      // window.location.reload();
+    })
+    .catch(() => {
+      loadingBox.current.style["display"] = "none";
+      window.alert("Sorry, we are unable to process your order online!\n\nPlease call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764");
+    });
   }
 
   function noSubmit(e) {
@@ -162,8 +208,12 @@ function App() {
     }
   }
 
+  function noClear(e) {
+    e.preventDefault();
+  }
+
   return (
-    <form id="myForm" onSubmit={submitOrder} onKeyDown={noSubmit}>
+    <form id="myForm" onSubmit={noClear} onKeyDown={noSubmit}>
       <div className='contact-row'>
         <input type='text' ref={firstNameInput} placeholder='First Name' required></input>
         <input type='text' ref={lastNameInput} placeholder='Last Name' required></input>
@@ -180,6 +230,15 @@ function App() {
         <h2>Location:  Justina's House, 8149 Hendrie, Huntington Woods</h2>
         <h2>Questions:  Call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764</h2>
       </header>
+      <div id='summary-background' ref={summaryBkg}>
+        <div id='summary-box' ref={summaryBox}>
+          {summaryItems}
+          <div id='summary-buttons'>
+            <button onClick={hideSummary} className='summary-button'>CONTINUE SHOPPING</button>
+            <button onClick={submitOrder} className='summary-button' ref={submitButton}>SUBMIT</button>
+          </div>
+        </div>
+      </div>
       <main className='main-grid'>
         <h3 className='grid-banner'>PLANT ASSORTMENT</h3>
         <div id='grid-heading-spacer'> </div>
@@ -191,7 +250,7 @@ function App() {
       </main>
       <div className='button-group'>
         <hr />
-        <button>REVIEW YOUR ORDER</button>
+        <button onClick={reviewOrder}>REVIEW YOUR ORDER</button>
         <hr />
         <h2 id='total-label'>Total:</h2>
         <h2 id="total-counter" ref={totalOutput} className='center-text'>$0.00</h2>

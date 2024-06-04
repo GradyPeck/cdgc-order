@@ -9,6 +9,54 @@ body {
   max-width: 800px;
 }
 
+#summary-background {
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  background-color: black;
+  background-color: rgba(0,0,0,0.4);
+  padding: 10vh 10vw;
+  z-index: 1;
+  visibility: collapse;
+}
+
+#summary-box {
+  background-color: white;
+  width: 100%;
+  max-height: 100%;
+  max-width: 700px;
+  margin: 0px auto;
+  padding: 5vw;
+  overflow-y: auto;
+}
+
+#summary-box h3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.summary-item {
+  margin: 0px 0px 0px 5%;
+}
+
+.summary-indent {
+  margin: 0px 0px 0px 10%;
+}
+
+.summary-double-indent {
+  margin: 0px 0px 0px 15%;
+}
+
+#summary-buttons {
+  display: flex;
+}
+
+.summary-button {
+  min-width: 30%;
+}
+
 span {
   margin-top: auto;
 }
@@ -168,6 +216,15 @@ button {
 }
 
 @media (max-width: 700px) {
+  #summary-background {
+    padding: 0px;
+  }
+  #summary-buttons {
+    flex-direction: column;
+  }
+  .summary-button {
+    min-width: 80%;
+  }
   .main-grid {
     grid-template-columns: repeat(2, 15vw) repeat(2, calc(35vw - 7.5px));
   }
