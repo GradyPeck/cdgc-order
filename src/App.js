@@ -132,7 +132,9 @@ function App() {
     summaryBkg.current.style.visibility = "collapse";
   }
 
-  function submitOrder() {
+  function submitOrder(e) {
+    e.preventDefault();
+    
     //create CSV to send to Justina
     let csv = JSON.stringify(myQuants);
     csv = csv.replaceAll("{", "");
@@ -183,13 +185,14 @@ function App() {
     1000);
 
     Promise.all(emailReturns)
-    .then(() => {loadingBox.current.style["display"] = "none";
+    .then(() => {
+      loadingBox.current.style["display"] = "none";
       summaryBox.current.innerHTML = 
       <div>
         <p>{`Thanks for your order! It has been submitted.
         \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
         \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`}</p>
-        <button onClick={window.location.reload()}>Close</button>
+        {/* <button onClick={window.location.reload()}>Close</button> */}
       </div>
       // window.alert(`Thanks for your order! It has been submitted.
       // \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
