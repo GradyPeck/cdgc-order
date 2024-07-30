@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Category from './components/Category';
 import Item from './components/Item';
 import SummaryItem from './components/SummaryItem';
+import SummaryModal from './components/SummaryModal';
 import { currencyString } from './util';
 import { plantData } from './data/plants';
 import { useRef } from 'react';
