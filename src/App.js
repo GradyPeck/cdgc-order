@@ -15,14 +15,16 @@ function App() {
   const phoneInput = useRef(null);
   const emailInput = useRef(null);
   const totalOutput = useRef(null);
-  const loadingBox = useRef(null);
+  // const loadingBox = useRef(null);
   const summaryBkg = useRef(null);
   const summaryBox = useRef(null);
   const submitButton = useRef(null);
 
-  const [summaryItems, setSummaryItems] = useState([]);
+  // const [summaryItems, setSummaryItems] = useState([]);
 
   let summary = "";
+  let sum = 0;
+  let summaryItems = [];
 
   const myQuants = {};
 
@@ -41,7 +43,7 @@ function App() {
   function updateQuant(name, quant, cost) {
     if(quant || myQuants[name] != null) {
       myQuants[name] = [quant, quant * cost];
-      let sum = 0;
+      sum = 0;
       for(const key in myQuants) {
         sum += myQuants[key][1];
       }
@@ -107,11 +109,8 @@ function App() {
       newSummaryItems.push(<SummaryItem key={myText} myText={myText} indents={indents} />);
     }
 
-    setSummaryItems(newSummaryItems);
-    return summary;
+    summaryItems = newSummaryItems;
   }
-  
-  let sum = 0;
 
   function reviewOrder(e) {
     e.preventDefault();
@@ -123,7 +122,7 @@ function App() {
       if(!myQuants[key][0]) delete myQuants[key];
     }
 
-    summary = summarize();
+    summarize();
     summaryBkg.current.style.visibility = "visible";
 
   }
@@ -135,6 +134,8 @@ function App() {
   function submitOrder(e) {
     e.preventDefault();
     
+    summarize();
+
     //create CSV to send to Justina
     let csv = JSON.stringify(myQuants);
     csv = csv.replaceAll("{", "");
@@ -161,7 +162,7 @@ function App() {
       )
     );
 
-    loadingBox.current.style["display"] = "flex";
+    // loadingBox.current.style["display"] = "flex";
     
     //setting up params for second email
     let templateParams = {
@@ -186,21 +187,22 @@ function App() {
 
     Promise.all(emailReturns)
     .then(() => {
-      loadingBox.current.style["display"] = "none";
-      summaryBox.current.innerHTML = 
-      <div>
-        <p>{`Thanks for your order! It has been submitted.
-        \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
-        \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`}</p>
-        {/* <button onClick={window.location.reload()}>Close</button> */}
-      </div>
+      summaryItems = [<h3 key="1">Your Shopping Cart:</h3>];
+      // loadingBox.current.style["display"] = "none";
+      // summaryBox.current.innerHTML = 
+      // <div>
+      //   <p>{`Thanks for your order! It has been submitted.
+      //   \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
+      //   \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`}</p>
+      //   {/* <button onClick={window.location.reload()}>Close</button> */}
+      // </div>
       // window.alert(`Thanks for your order! It has been submitted.
       // \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
       // \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`);
       // window.location.reload();
     })
     .catch(() => {
-      loadingBox.current.style["display"] = "none";
+      // loadingBox.current.style["display"] = "none";
       window.alert("Sorry, we are unable to process your order online!\n\nPlease call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764");
     });
   }
@@ -216,53 +218,47 @@ function App() {
   }
 
   return (
-    <form id="myForm" onSubmit={noClear} onKeyDown={noSubmit}>
-      <div className='contact-row'>
-        <input type='text' ref={firstNameInput} placeholder='First Name' required></input>
-        <input type='text' ref={lastNameInput} placeholder='Last Name' required></input>
-      </div>
-      <div className='contact-row'>
-        <input type='tel' ref={phoneInput} placeholder='Phone #' required></input>
-        <input type='email' ref={emailInput} placeholder='Email' required></input>
-      </div>
-      <header>
-        <h1>2024 County Downs Garden Club Plant Sale</h1>
-        <h2>Orders are due by <span className='redder'>May 1st.</span></h2>
-        <h2>Plant order pick up will be <span className='redder'>May 16th and 17th.</span></h2>
-        <h2>You will be contacted to choose a pick up time.</h2>
-        <h2>Location:  Justina's House, 8149 Hendrie, Huntington Woods</h2>
-        <h2>Questions:  Call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764</h2>
-      </header>
-      <div id='summary-background' ref={summaryBkg}>
-        <div id='summary-box' ref={summaryBox}>
-          {summaryItems}
-          <div id='summary-buttons'>
-            <button onClick={hideSummary} className='summary-button'>CONTINUE SHOPPING</button>
-            <button onClick={submitOrder} className='summary-button' ref={submitButton}>SUBMIT</button>
-          </div>
+    <>
+      <div id="myForm" onSubmit={noClear} onKeyDown={noSubmit}>
+        <div className='contact-row'>
+          <input type='text' ref={firstNameInput} placeholder='First Name' required></input>
+          <input type='text' ref={lastNameInput} placeholder='Last Name' required></input>
         </div>
+        <div className='contact-row'>
+          <input type='tel' ref={phoneInput} placeholder='Phone #' required></input>
+          <input type='email' ref={emailInput} placeholder='Email' required></input>
+        </div>
+        <header>
+          <h1>2024 County Downs Garden Club Plant Sale</h1>
+          <h2>Orders are due by <span className='redder'>May 1st.</span></h2>
+          <h2>Plant order pick up will be <span className='redder'>May 16th and 17th.</span></h2>
+          <h2>You will be contacted to choose a pick up time.</h2>
+          <h2>Location:  Justina's House, 8149 Hendrie, Huntington Woods</h2>
+          <h2>Questions:  Call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764</h2>
+        </header>
+        <main className='main-grid'>
+          <h3 className='grid-banner'>PLANT ASSORTMENT</h3>
+          <div id='grid-heading-spacer'> </div>
+          <h4 className='grid-heading'>Quantity</h4>
+          <h4 className='grid-heading'>Cost</h4>
+          <h4 className='grid-heading'>Total</h4>
+          {myEntries}
+          <h2 id='total-spacer'>Thank you for your support!</h2>
+        </main>
+        <div className='button-group'>
+          <hr />
+          <button onClick={reviewOrder}>REVIEW YOUR ORDER</button>
+          <hr />
+          <h2 id='total-label'>Total:</h2>
+          <h2 id="total-counter" ref={totalOutput} className='center-text'>$0.00</h2>
+          <hr id='final-spacer'/>
+        </div>
+        {/* <div id="loading-box" ref={loadingBox}>
+          <p>Processing! Please wait...</p>
+        </div> */}
       </div>
-      <main className='main-grid'>
-        <h3 className='grid-banner'>PLANT ASSORTMENT</h3>
-        <div id='grid-heading-spacer'> </div>
-        <h4 className='grid-heading'>Quantity</h4>
-        <h4 className='grid-heading'>Cost</h4>
-        <h4 className='grid-heading'>Total</h4>
-        {myEntries}
-        <h2 id='total-spacer'>Thank you for your support!</h2>
-      </main>
-      <div className='button-group'>
-        <hr />
-        <button onClick={reviewOrder}>REVIEW YOUR ORDER</button>
-        <hr />
-        <h2 id='total-label'>Total:</h2>
-        <h2 id="total-counter" ref={totalOutput} className='center-text'>$0.00</h2>
-        <hr id='final-spacer'/>
-      </div>
-      <div id="loading-box" ref={loadingBox}>
-        <p>Processing! Please wait...</p>
-      </div>
-    </form>
+      <SummaryModal summaryItems={summaryItems} hideSummary={hideSummary} submitOrder={submitOrder} />
+    </>
   );
 }
 
