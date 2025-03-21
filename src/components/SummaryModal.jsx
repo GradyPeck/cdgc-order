@@ -1,12 +1,11 @@
-export default function SummaryModal({summaryItems, hideSummary, submitOrder}) {
+export default function SummaryModal({hideSummary, submitOrder, bkgRef, boxRef, buttonRef}) {
 
     return (
-      <div id='summary-background'>
-        <div id='summary-box' >
-          {summaryItems}
+      <div ref={bkgRef} id='summary-background'>
+        <div ref={boxRef} id='summary-box' >
           <div id='summary-buttons'>
             <button onClick={hideSummary} className='summary-button'>CONTINUE SHOPPING</button>
-            <button onClick={submitOrder} className='summary-button' >SUBMIT</button>
+            <button ref={buttonRef} onClick={submitOrder} className='summary-button' >SUBMIT</button>
           </div>
         </div>
       </div>

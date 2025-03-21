@@ -1,5 +1,4 @@
 import './App.css';
-import React, { useState } from 'react';
 import Category from './components/Category';
 import Item from './components/Item';
 import SummaryItem from './components/SummaryItem';
@@ -23,7 +22,7 @@ function App() {
 
   // const [summaryItems, setSummaryItems] = useState([]);
 
-  let summary = "";
+  let textSummary = "";
   let sum = 0;
   let summaryItems = [];
 
@@ -53,25 +52,26 @@ function App() {
   }
 
   function summarize() {
-    summary = "";
-    let newSummaryItems = []; //TODO: consider eliminating in favor of summaryItems
+    textSummary = "";
+    let htmlSummary = []; //TODO: consider eliminating in favor of summaryItems
 
     //prevent empty orders
     if(Object.keys(myQuants).length === 0) {
       submitButton.current.disabled = true;
-      newSummaryItems = [
-        <h3 key="0">It looks like you're trying to submit an empty order.</h3>,
-        <h3 key="01">Please type the number of plants you want into the quantity blanks and try again!</h3>
+      htmlSummary = [
+        // <h3 key="0">It looks like you're trying to submit an empty order.</h3>,
+        // <h3 key="01">Please type the number of plants you want into the quantity blanks and try again!</h3>
+        <SummaryItem key={"boom"} myText={"Nothing ordered, nothing gained"} indents={0} />
       ];
     }//otherwise, summarize the order
     else {
       submitButton.current.disabled = false;
-      newSummaryItems = [<h3 key="1">Your Shopping Cart:</h3>];
+      htmlSummary = [<h3 key="1">Your Shopping Cart:</h3>];
       for (let datum of plantData) {
         const keys = Object.keys(datum);
         //for items outside of categories
         if(keys.includes("name")) {
-          //write this item into summary if it appears in quants
+          //write this item into summaries if it appears in quants
           if(Object.keys(myQuants).includes(datum["name"])) {
             updateSummary(`${myQuants[datum["name"]][0]} ${datum["name"]} - ${currencyString(myQuants[datum["name"]][1])}`, 1);
           }
@@ -81,7 +81,7 @@ function App() {
           let writeCat = true;
           for (let item of datum[catName]) {
             const itemName = `${catName}: ${item["name"]}`
-            //write this item into summary if it appears in quants
+            //write this item into summaries if it appears in quants
             if(Object.keys(myQuants).includes(itemName)) {
               //the first time this triggers, write the category heading
               if(writeCat) {
@@ -93,24 +93,24 @@ function App() {
           }
         }
       }
-      newSummaryItems.push(<h3 key="2">Your order total is {currencyString(sum)}.</h3>);
-      newSummaryItems.push(<h3 key="3">PLACE ORDER?</h3>);
+      htmlSummary.push(<h3 key="2">Your order total is {currencyString(sum)}.</h3>);
+      htmlSummary.push(<h3 key="3">PLACE ORDER?</h3>);
     }
 
     function updateSummary(myText, indents) {
-      //update the textual summary to send to EmailJS
-      summary += "\n";
+      //update textSummary to send to EmailJS
+      textSummary += "\n";
       for(let i = 0; i < indents; i++) {
-        if(i === 0) summary += "-";
-        summary += "\t";
+        if(i === 0) textSummary += "-";
+        textSummary += "\t";
       }
-      summary += myText;
+      textSummary += myText;
   
-      //update the HTML summary to display in the review order modal
-      newSummaryItems.push(<SummaryItem key={myText} myText={myText} indents={indents} />);
+      //update the HTML textSummary to display in the review order modal
+      htmlSummary.push(<SummaryItem key={myText} myText={myText} indents={indents} />);
     }
 
-    summaryItems = newSummaryItems;
+    //summaryItems = htmlSummary;
   }
 
   function reviewOrder(e) {
@@ -145,8 +145,8 @@ function App() {
     csv = `${firstNameInput.current.value},${lastNameInput.current.value},${phoneInput.current.value},${emailInput.current.value},${currencyString(sum)}\n` + csv;
     csv = window.btoa(csv);
 
-    //add total line to summary
-    summary = `${summary}\n\nOrder Total: ${currencyString(sum)}`;
+    //add total line to textSummary
+    textSummary = `${textSummary}\n\nOrder Total: ${currencyString(sum)}`;
 
     //array to collect the email.js promise returns
     let emailReturns = [];
@@ -156,7 +156,7 @@ function App() {
       emailjs.send(
         'service_vbj6dhc', 
         'template_cj6ncrr', 
-        {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: `Order Summary: ${summary}`, CSV_content: csv}, 
+        {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: `Order Summary: ${textSummary}`, CSV_content: csv}, 
         "1Pwmo3BHx-shOTe4M"
       )
     );
@@ -166,7 +166,7 @@ function App() {
     //setting up params for second email
     let templateParams = {
       order_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`,
-      email_body: `Order Summary: ${summary}`,
+      email_body: `Order Summary: ${textSummary}`,
       order_email: emailInput.current.value
     };
 
@@ -228,7 +228,7 @@ function App() {
           <input type='email' ref={emailInput} placeholder='Email' required></input>
         </div>
         <header>
-          <h1>TEST 1 County Downs Garden Club Plant Sale</h1>
+          <h1>TEST 3 County Downs Garden Club Plant Sale</h1>
           <h2>Orders are due by <span className='redder'>May 1st.</span></h2>
           <h2>Plant order pick up will be <span className='redder'>May 16th and 17th.</span></h2>
           <h2>You will be contacted to choose a pick up time.</h2>
@@ -256,16 +256,8 @@ function App() {
           <p>Processing! Please wait...</p>
         </div> */}
       </div>
-      {/* <SummaryModal summaryItems={summaryItems} hideSummary={hideSummary} submitOrder={submitOrder} /> */}
-      <div id='summary-background' ref={summaryBkg}>
-        <div id='summary-box' ref={summaryBox}>
-          {summaryItems}
-          <div id='summary-buttons'>
-            <button onClick={hideSummary} className='summary-button'>CONTINUE SHOPPING</button>
-            <button ref={submitButton} onClick={submitOrder} className='summary-button' >SUBMIT</button>
-          </div>
-        </div>
-      </div>
+      <SummaryModal hideSummary={hideSummary} submitOrder={submitOrder} 
+      bkgRef={summaryBkg} boxRef={summaryBox} buttonRef={submitButton} />
     </>
   );
 }
