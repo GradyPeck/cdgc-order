@@ -262,7 +262,7 @@ function App() {
           {summaryItems}
           <div id='summary-buttons'>
             <button onClick={hideSummary} className='summary-button'>CONTINUE SHOPPING</button>
-            <button onClick={submitOrder} className='summary-button' >SUBMIT</button>
+            <button ref={submitButton} onClick={submitOrder} className='summary-button' >SUBMIT</button>
           </div>
         </div>
       </div>
