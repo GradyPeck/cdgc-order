@@ -1,7 +1,7 @@
 export default function SummaryModal({summaryItems, hideSummary, submitOrder}) {
 
     return (
-        <div id='summary-background' >
+      <div id='summary-background'>
         <div id='summary-box' >
           {summaryItems}
           <div id='summary-buttons'>

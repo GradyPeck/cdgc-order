@@ -54,7 +54,7 @@ function App() {
 
   function summarize() {
     summary = "";
-    let newSummaryItems = [];
+    let newSummaryItems = []; //TODO: consider eliminating in favor of summaryItems
 
     //prevent empty orders
     if(Object.keys(myQuants).length === 0) {
@@ -134,8 +134,6 @@ function App() {
 
   function submitOrder(e) {
     e.preventDefault();
-    
-    summarize();
 
     //create CSV to send to Justina
     let csv = JSON.stringify(myQuants);
@@ -258,7 +256,16 @@ function App() {
           <p>Processing! Please wait...</p>
         </div> */}
       </div>
-      <SummaryModal summaryItems={summaryItems} hideSummary={hideSummary} submitOrder={submitOrder} />
+      {/* <SummaryModal summaryItems={summaryItems} hideSummary={hideSummary} submitOrder={submitOrder} /> */}
+      <div id='summary-background' ref={summaryBkg}>
+        <div id='summary-box' ref={summaryBox}>
+          {summaryItems}
+          <div id='summary-buttons'>
+            <button onClick={hideSummary} className='summary-button'>CONTINUE SHOPPING</button>
+            <button onClick={submitOrder} className='summary-button' >SUBMIT</button>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
