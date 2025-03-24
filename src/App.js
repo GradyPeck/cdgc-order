@@ -3,6 +3,7 @@ import Category from './components/Category';
 import Item from './components/Item';
 import SummaryItem from './components/SummaryItem';
 import SummaryModal from './components/SummaryModal';
+import CountBox from './components/CountBox';
 import { currencyString } from './util';
 import { plantData } from './data/plants';
 import { useEffect, useRef, useState } from 'react';
@@ -15,54 +16,45 @@ function App() {
   const phoneInput = useRef(null);
   const emailInput = useRef(null);
   const totalOutput = useRef(null);
-  // const loadingBox = useRef(null);
+  const loadingBox = useRef(null);
   const summaryBkg = useRef(null);
   const summaryBox = useRef(null);
   const submitButton = useRef(null);
 
+  const[myQuants, setQuants] = useState();
+  const[summaryItems, setSummary] = useState();
+
   let textSummary = "";
   let sum = 0;
-  let summaryItems = [
-    <h3 key="0">It looks like you're trying to submit an empty order.</h3>,
-    <h3 key="01">Please type the number of plants you want into the quantity blanks and try again! 0</h3>
-  ];
 
-  const[myQuants, setQuants] = useState();
-  const[myEntries, setEntries] = useState();
-  let tempQuants;
-
-  // const myQuants = {};
-
-  useEffect(() => {
-    const entries = plantData.map((datum, i) => {
-      const keys = Object.keys(datum);
-      if(keys.includes("name")) {
-          return <Item key={i} entry={datum} update={updateQuant} />;
-      }
-      else {
-          const myName = keys[0];
-          return <Category key={i} name={myName} itemList={datum[myName]} indent={datum["indent"]} update={updateQuant} />;
-      }
-    });
-    setEntries(entries);
-  }, []);
+  const myEntries = plantData.map((datum, i) => {
+    const keys = Object.keys(datum);
+    if(keys.includes("name")) {
+        return <Item key={i} entry={datum} update={updateQuant} />;
+    }
+    else {
+        const myName = keys[0];
+        return <Category key={i} name={myName} itemList={datum[myName]} indent={datum["indent"]} update={updateQuant} />;
+    }
+  });
 
   function updateQuant(name, quant, cost) {
+    let tempQuants;
     tempQuants = {...myQuants};
     if(quant || tempQuants[name] != null) {
       tempQuants[name] = [quant, quant * cost];
-      // sum = 0;
-      // for(const key in tempQuants) {
-      //   sum += tempQuants[key][1];
-      // }
-      // totalOutput.current.innerText = currencyString(sum);
+      sum = 0;
+      for(const key in tempQuants) {
+        sum += tempQuants[key][1];
+      }
+      totalOutput.current.innerText = currencyString(sum);
     }
     setQuants({...tempQuants});
   }
 
   function summarize(quants) {
     textSummary = "";
-    let htmlSummary = []; //TODO: consider eliminating in favor of summaryItems
+    let htmlSummary = [];
 
     //prevent empty orders
     if(Object.keys(quants).length === 0) {
@@ -118,20 +110,21 @@ function App() {
       htmlSummary.push(<SummaryItem key={myText} myText={myText} indents={indents} />);
     }
 
-    summaryItems = htmlSummary;
+    setSummary(Array.from(htmlSummary));
   }
 
   function reviewOrder(e) {
     e.preventDefault();
 
     //prune zero-quantity items and total up cost
+    let tempQuants;
     tempQuants = {...myQuants};
     sum = 0;
     for(const key in tempQuants) {
       sum += tempQuants[key][1];
       if(!tempQuants[key][0]) delete tempQuants[key];
     }
-
+    setQuants({...tempQuants});
     summarize(tempQuants);
     summaryBkg.current.style.visibility = "visible";
 
@@ -196,21 +189,21 @@ function App() {
     Promise.all(emailReturns)
     .then(() => {
       summaryItems = [<h3 key="1">Your Shopping Cart:</h3>];
-      // loadingBox.current.style["display"] = "none";
-      // summaryBox.current.innerHTML = 
-      // <div>
-      //   <p>{`Thanks for your order! It has been submitted.
-      //   \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
-      //   \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`}</p>
-      //   {/* <button onClick={window.location.reload()}>Close</button> */}
-      // </div>
+      loadingBox.current.style["display"] = "none";
+      summaryBox.current.innerHTML = 
+      <div>
+        <p>{`Thanks for your order! It has been submitted.
+        \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
+        \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`}</p>
+        <button onClick={window.location.reload()}>Close</button>
+      </div>
       // window.alert(`Thanks for your order! It has been submitted.
       // \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
       // \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`);
       // window.location.reload();
     })
     .catch(() => {
-      // loadingBox.current.style["display"] = "none";
+      loadingBox.current.style["display"] = "none";
       window.alert("Sorry, we are unable to process your order online!\n\nPlease call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764");
     });
   }
@@ -261,12 +254,12 @@ function App() {
           <h2 id="total-counter" ref={totalOutput} className='center-text'>$0.00</h2>
           <hr id='final-spacer'/>
         </div>
-        {/* <div id="loading-box" ref={loadingBox}>
+        <div id="loading-box" ref={loadingBox}>
           <p>Processing! Please wait...</p>
-        </div> */}
+        </div>
       </div>
       <SummaryModal summaryItems={summaryItems} hideSummary={hideSummary} submitOrder={submitOrder} 
-      bkgRef={summaryBkg} boxRef={summaryBox} buttonRef={submitButton} />
+      bkgRef={summaryBkg} boxRef={summaryBox} buttonRef={submitButton}/>
     </>
   );
 }

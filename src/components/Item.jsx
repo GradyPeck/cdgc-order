@@ -6,13 +6,9 @@ export default function Item({entry, indent, update}) {
     const[total, setTotal] = useState(0);
     const {cat, name, subname, unit, cost} = entry;
 
-    useEffect(() => {
-        setTotal(quant * cost);
-        let longName = "";
-        if(cat) longName = `${cat}: `;
-        longName = longName + name;
-        update(longName, quant, cost);
-    }, [quant, cost, name, cat, update]);
+    // useEffect(() => {
+        
+    // }, [quant, cost, name, cat, update]);
 
     function validateInt(input) {
         const output = Number.parseInt(input);
@@ -21,7 +17,13 @@ export default function Item({entry, indent, update}) {
     }
 
     function updateQuant(e) {
-        setQuant(validateInt(e.target.value));
+        let newQuant = validateInt(e.target.value);
+        setQuant(newQuant);
+        setTotal(newQuant * cost);
+        let longName = "";
+        if(cat) longName = `${cat}: `;
+        longName = longName + name;
+        update(longName, newQuant, cost);
     }
 
     let nameEl;

@@ -11,15 +11,15 @@ body {
 
 #summary-background {
   width: 100vw;
-  /* height: 100vh; */
-  /* top: 0px; */
-  /* left: 0px; */
-  /* position: fixed; */
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+  position: fixed;
   background-color: black;
   background-color: rgba(0,0,0,0.4);
   padding: 10vh 10vw;
-  /* z-index: 1; */
-  /* visibility: hidden; */
+  z-index: 1;
+  visibility: hidden;
 }
 
 #summary-box {
