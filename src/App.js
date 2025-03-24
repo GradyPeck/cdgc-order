@@ -148,6 +148,10 @@ function App() {
     csv = window.btoa(csv);
 
     //add total line to textSummary
+    sum = 0;
+    for(const key in myQuants) {
+      sum += myQuants[key][1];
+    }
     textSummary = `${textSummary}\n\nOrder Total: ${currencyString(sum)}`;
 
     //array to collect the email.js promise returns
@@ -163,7 +167,7 @@ function App() {
       )
     );
 
-    // loadingBox.current.style["display"] = "flex";
+    loadingBox.current.style["display"] = "flex";
     
     //setting up params for second email
     let templateParams = {
