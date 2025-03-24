@@ -27,7 +27,7 @@ function App() {
     <h3 key="01">Please type the number of plants you want into the quantity blanks and try again! 0</h3>
   ];
 
-  const[myQuants, setQuants] = useState({});
+  const[myQuants, setQuants] = useState();
   const[myEntries, setEntries] = useState();
   let tempQuants;
 
@@ -48,21 +48,17 @@ function App() {
   }, []);
 
   function updateQuant(name, quant, cost) {
-    console.log("my: ", myQuants);
     tempQuants = {...myQuants};
-    console.log("temp: ", tempQuants);
     if(quant || tempQuants[name] != null) {
       tempQuants[name] = [quant, quant * cost];
-      sum = 0;
-      for(const key in tempQuants) {
-        sum += tempQuants[key][1];
-      }
-      totalOutput.current.innerText = currencyString(sum);
+      // sum = 0;
+      // for(const key in tempQuants) {
+      //   sum += tempQuants[key][1];
+      // }
+      // totalOutput.current.innerText = currencyString(sum);
     }
     setQuants({...tempQuants});
   }
-
-  console.log(myQuants);
 
   function summarize(quants) {
     textSummary = "";
