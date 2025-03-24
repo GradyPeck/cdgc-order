@@ -72,7 +72,7 @@ function App() {
         if(keys.includes("name")) {
           //write this item into summaries if it appears in quants
           if(Object.keys(quants).includes(datum["name"])) {
-            updateSummary(`${quants[datum["name"]][0]} ${datum["name"]} - ${currencyString(quants[datum["name"]][1])}`, 1);
+            updateSummary(`${quants[datum["name"]][0]} ${datum["name"]} - ${currencyString(quants[datum["name"]][1])}`, 0);
           }
         }
         else {
@@ -84,10 +84,10 @@ function App() {
             if(Object.keys(quants).includes(itemName)) {
               //the first time this triggers, write the category heading
               if(writeCat) {
-                updateSummary(catName, 1);
+                updateSummary(catName, 0);
                 writeCat = false;
               }
-              updateSummary(`${quants[itemName][0]} ${item["name"]} - ${currencyString(quants[itemName][1])}`, 2);
+              updateSummary(`${quants[itemName][0]} ${item["name"]} - ${currencyString(quants[itemName][1])}`, 1);
             }
           }
         }
@@ -194,19 +194,19 @@ function App() {
 
     Promise.all(emailReturns)
     .then(() => {
-      summaryItems = [<h3 key="1">Your Shopping Cart:</h3>];
+      // summaryItems = [<h3 key="1">Your Shopping Cart:</h3>];
       loadingBox.current.style["display"] = "none";
       summaryBox.current.innerHTML = 
-      // <div>
-      //   <p>{`Thanks for your order! It has been submitted.
-      //   \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
-      //   \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`}</p>
-      //   <button onClick={window.location.reload()}>Close</button>
-      // </div>
-      window.alert(`Thanks for your order! It has been submitted.
-      \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
-      \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`);
-      window.location.reload();
+      `<div>
+      <p>Thanks for your order! It has been submitted.</p>
+      <p>This form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.</p>
+      <p>If you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764</p>
+      <button onClick={window.location.reload()}>Close</button>
+      </div>`
+      // window.alert(`Thanks for your order! It has been submitted.
+      // \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
+      // \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`);
+      // window.location.reload();
     })
     .catch(() => {
       loadingBox.current.style["display"] = "none";
@@ -264,7 +264,6 @@ function App() {
           <p>Processing! Please wait...</p>
         </div>
       </div>
-      {/* <CountBox summation={summaryItems} /> */}
       <SummaryModal summaryItems={summaryItems} hideSummary={hideSummary} submitOrder={submitOrder} 
       bkgRef={summaryBkg} boxRef={summaryBox} buttonRef={submitButton}/>
     </>
