@@ -58,7 +58,7 @@ export const plantData = [
         "Sunpatiens" : [
             {"name": "Deep Rose", "unit": "Plants", "cost": 450},
             {"name": "Orange", "unit": "Plants", "cost": 450},
-            {"name": "Solar Escape (Magenta)", "unit": "Plants", "cost": 450},
+            {"name": "Magenta Bliss", "unit": "Plants", "cost": 450},
             {"name": "White", "unit": "Plants", "cost": 450}
         ],
         "indent" : true

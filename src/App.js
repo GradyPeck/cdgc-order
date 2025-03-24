@@ -22,9 +22,8 @@ function App() {
   const submitButton = useRef(null);
 
   const[myQuants, setQuants] = useState();
-  const[summaryItems, setSummary] = useState();
+  const[summaryItems, setSummary] = useState({text: "no text", html: null});
 
-  let textSummary = "";
   let sum = 0;
 
   const myEntries = plantData.map((datum, i) => {
@@ -53,7 +52,7 @@ function App() {
   }
 
   function summarize(quants) {
-    textSummary = "";
+    let textSummary = "";
     let htmlSummary = [];
 
     //prevent empty orders
@@ -110,7 +109,7 @@ function App() {
       htmlSummary.push(<SummaryItem key={myText} myText={myText} indents={indents} />);
     }
 
-    setSummary(Array.from(htmlSummary));
+    setSummary({text: textSummary, html: Array.from(htmlSummary)});
   }
 
   function reviewOrder(e) {
@@ -137,6 +136,12 @@ function App() {
   function submitOrder(e) {
     e.preventDefault();
 
+    //compute the sum
+    sum = 0;
+    for(const key in myQuants) {
+      sum += myQuants[key][1];
+    }
+
     //create CSV to send to Justina
     let csv = JSON.stringify(myQuants);
     csv = csv.replaceAll("{", "");
@@ -148,10 +153,7 @@ function App() {
     csv = window.btoa(csv);
 
     //add total line to textSummary
-    sum = 0;
-    for(const key in myQuants) {
-      sum += myQuants[key][1];
-    }
+    let textSummary = summaryItems.text;
     textSummary = `${textSummary}\n\nOrder Total: ${currencyString(sum)}`;
 
     //array to collect the email.js promise returns
@@ -195,16 +197,16 @@ function App() {
       summaryItems = [<h3 key="1">Your Shopping Cart:</h3>];
       loadingBox.current.style["display"] = "none";
       summaryBox.current.innerHTML = 
-      <div>
-        <p>{`Thanks for your order! It has been submitted.
-        \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
-        \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`}</p>
-        <button onClick={window.location.reload()}>Close</button>
-      </div>
-      // window.alert(`Thanks for your order! It has been submitted.
-      // \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
-      // \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`);
-      // window.location.reload();
+      // <div>
+      //   <p>{`Thanks for your order! It has been submitted.
+      //   \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
+      //   \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`}</p>
+      //   <button onClick={window.location.reload()}>Close</button>
+      // </div>
+      window.alert(`Thanks for your order! It has been submitted.
+      \nThis form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.
+      \nIf you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764`);
+      window.location.reload();
     })
     .catch(() => {
       loadingBox.current.style["display"] = "none";
@@ -262,6 +264,7 @@ function App() {
           <p>Processing! Please wait...</p>
         </div>
       </div>
+      {/* <CountBox summation={summaryItems} /> */}
       <SummaryModal summaryItems={summaryItems} hideSummary={hideSummary} submitOrder={submitOrder} 
       bkgRef={summaryBkg} boxRef={summaryBox} buttonRef={submitButton}/>
     </>

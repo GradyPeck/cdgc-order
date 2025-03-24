@@ -1,13 +1,8 @@
-export default function CountBox({displayIt, summation}) {
-    let stringoo = "";
-    for(let key in displayIt) {
-        stringoo = stringoo + key + ", ";
-    }
+export default function CountBox({summation}) {
 
     return (
         <>
-            {summation}
-            <p>{stringoo}</p>
+            <p>{summation.text}</p>
         </>
     );
 }
