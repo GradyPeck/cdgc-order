@@ -33,7 +33,7 @@ export const plantData = [
             {"name": "Boston Fern", "unit": "Baskets", "cost": 1800},
             {"name": "Streptocarpus", "unit": "Baskets", "cost": 1800}
         ],
-        "indent" : false
+        "indent" : true
     },
     {
         "Sunpatiens Hanging Baskets" : [
@@ -69,7 +69,7 @@ export const plantData = [
             {"name": "White", "unit": "Plants", "cost": 450},
             {"name": "Pink Flare (Neon Rose)", "unit": "Plants", "cost": 450},
             {"name": "Strawberry Sizzle", "subname": " - Dark Pink", "unit": "Plants", "cost": 450},
-            {"name": "Cranberry Sizzle", "subname": " - Hot Magenta", "unit": "Plants", "cost": 450}
+            {"name": "Cranberry Sizzle", "subname": " - Magenta", "unit": "Plants", "cost": 450}
         ],
         "indent" : true
     },
