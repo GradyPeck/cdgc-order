@@ -13,29 +13,41 @@
 export const plantData = [
     {
         "Large Geranium Deck Pots" : [
-            {"name": "All Red", "unit": "Pots", "cost": 2400},
-            {"name": "Hot Mix", "subname": " - Bright Orange and Violet", "unit": "Pots", "cost": 2400},
-            {"name": "All Orange", "unit": "Pots", "cost": 2400},
-            {"name": "All White", "unit": "Pots", "cost": 2400},
-            {"name": "Miami Mix", "subname": " - Flamingo Rose & Violet", "unit": "Pots", "cost": 2400},
-            {"name": "All Violet", "unit": "Pots", "cost": 2400}
+            {"name": "All Red", "unit": "Pots", "cost": 2500},
+            {"name": "Hot Mix", "subname": " - Bright Orange and Violet", "unit": "Pots", "cost": 2500},
+            {"name": "All Orange", "unit": "Pots", "cost": 2500},
+            {"name": "All White", "unit": "Pots", "cost": 2500},
+            {"name": "Miami Mix", "subname": " - Flamingo Rose & Violet", "unit": "Pots", "cost": 2500},
+            {"name": "All Violet", "unit": "Pots", "cost": 2500}
         ],
         "indent" : true
     },
-    {"name": "Deck Pot for Shade", "subname": " - Make Selection at Pickup",  "unit": "Pots", "cost": 2400},
+    {
+        "Deck Pot for Shade" : [
+            {"name": "Assorted", "subname": " - Make Selection at Pickup", "unit": "Pots", "cost": 2500}
+        ],
+        "indent" : true
+    },
     {
         "Hanging Baskets" : [
             {"name": "Boston Fern", "unit": "Baskets", "cost": 1800},
-            {"name": "Streptocarpus", "unit": "Baskets", "cost": 1800},
-            {"name": "Sunpatiens Hanging Baskets", "subname": " - Magenta", "unit": "Baskets", "cost": 1500}
+            {"name": "Streptocarpus", "unit": "Baskets", "cost": 1800}
         ],
         "indent" : false
     },
     {
+        "Sunpatiens Hanging Baskets" : [
+            {"name": "Summer Salsa", "subname": " - Coral Pink, Hot Coral, Red", "unit": "Baskets", "cost": 1600},
+            {"name": "Hawaiian Sunset", "subname": " - Coral Pink, Orchid Blush, Purple", "unit": "Baskets", "cost": 1600},
+            {"name": "Best Friends", "subname": " - White, Rose Glow, Lilac", "unit": "Baskets", "cost": 1600}
+        ],
+        "indent" : true
+    },
+    {
         "Calliope Geranium Hanging Baskets" : [
-            {"name": "Red", "unit": "Baskets", "cost": 1500},
-            {"name": "Lavender Rose", "unit": "Baskets", "cost": 1500},
-            {"name": "Crimson Flame", "subname": " - Bi-color Red/Hot Pink", "unit": "Baskets", "cost": 1500}
+            {"name": "Red", "unit": "Baskets", "cost": 1600},
+            {"name": "Lavender Rose", "unit": "Baskets", "cost": 1600},
+            {"name": "Crimson Flame", "subname": " - Bi-color Red/Hot Pink", "unit": "Baskets", "cost": 1600}
         ],
         "indent" : true
     },
@@ -46,30 +58,30 @@ export const plantData = [
         "Sunpatiens" : [
             {"name": "Deep Rose", "unit": "Plants", "cost": 450},
             {"name": "Orange", "unit": "Plants", "cost": 450},
-            {"name": "Magenta", "unit": "Plants", "cost": 450},
+            {"name": "Solar Escape (Magenta)", "unit": "Plants", "cost": 450},
             {"name": "White", "unit": "Plants", "cost": 450}
         ],
         "indent" : true
     },
     {
         "Geraniums" : [
-            {"name": "Red", "unit": "Plants", "cost": 375},
-            {"name": "White", "unit": "Plants", "cost": 375},
-            {"name": "Neon Rose", "subname": " - Pink", "unit": "Plants", "cost": 375},
-            {"name": "Strawberry Sizzle", "subname": " - Dark Pink", "unit": "Plants", "cost": 375},
-            {"name": "Cranberry Sizzle", "subname": " - Hot Magenta", "unit": "Plants", "cost": 375}
+            {"name": "Red", "unit": "Plants", "cost": 450},
+            {"name": "White", "unit": "Plants", "cost": 450},
+            {"name": "Pink Flare (Neon Rose)", "unit": "Plants", "cost": 450},
+            {"name": "Strawberry Sizzle", "subname": " - Dark Pink", "unit": "Plants", "cost": 450},
+            {"name": "Cranberry Sizzle", "subname": " - Hot Magenta", "unit": "Plants", "cost": 450}
         ],
         "indent" : true
     },
     {
         "Sweet Potato Vines" : [
-            {"name": "Margarita", "unit": "Plants", "cost": 400},
-            {"name": "Tri-Color", "unit": "Plants", "cost": 400},
-            {"name": "Ace of Spades", "unit": "Plants", "cost": 400}
+            {"name": "Margarita", "unit": "Plants", "cost": 450},
+            {"name": "Tri-Color", "unit": "Plants", "cost": 450},
+            {"name": "Ace of Spades", "unit": "Plants", "cost": 450}
         ],
         "indent" : true
     },
-    {"name": "Vinca Vine", "unit": "Plants", "cost": 375},
-    {"name": "Creeping Jenny", "unit": "Plants", "cost": 375},
-    {"name": "Spikes", "unit": "Plants", "cost": 375}
+    {"name": "Vinca Vine", "unit": "Plants", "cost": 400},
+    {"name": "Creeping Jenny", "unit": "Plants", "cost": 400},
+    {"name": "Spikes", "unit": "Plants", "cost": 400}
 ];
