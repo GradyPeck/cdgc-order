@@ -3,10 +3,9 @@ import Category from './components/Category';
 import Item from './components/Item';
 import SummaryItem from './components/SummaryItem';
 import SummaryModal from './components/SummaryModal';
-import CountBox from './components/CountBox';
 import { currencyString } from './util';
 import { plantData } from './data/plants';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 
 function App() {
@@ -61,6 +60,13 @@ function App() {
       htmlSummary = [
         <h3 key="0">It looks like you're trying to submit an empty order.</h3>,
         <h3 key="01">Please type the number of plants you want into the quantity blanks and try again!</h3>
+      ];
+    }//require the info blanks to have values
+    else if(!(firstNameInput.current.value && lastNameInput.current.value && phoneInput.current.value && emailInput.current.value)){
+      submitButton.current.disabled = true;
+      htmlSummary = [
+        <h3 key="0">It looks like we need more information.</h3>,
+        <h3 key="01">Please fill out the info blanks at the top of the page and try again!</h3>
       ];
     }//otherwise, summarize the order
     else {
@@ -170,6 +176,7 @@ function App() {
     );
 
     loadingBox.current.style["display"] = "flex";
+    summaryBkg.current.style.visibility = "hidden";
     
     //setting up params for second email
     let templateParams = {
@@ -194,13 +201,13 @@ function App() {
 
     Promise.all(emailReturns)
     .then(() => {
-      // summaryItems = [<h3 key="1">Your Shopping Cart:</h3>];
       loadingBox.current.style["display"] = "none";
+      summaryBkg.current.style.visibility = "visible";
       summaryBox.current.innerHTML = 
       `<div>
       <p>Thanks for your order! It has been submitted.</p>
       <p>This form will now clear itself, but a confirmation email with your order details has been sent to ${emailInput.current.value}.</p>
-      <p>If you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764</p>
+      <p>If you don't receive this email in the next several minutes, or if you have any questions, call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764.</p>
       <button onClick={window.location.reload()}>Close</button>
       </div>`
       // window.alert(`Thanks for your order! It has been submitted.
