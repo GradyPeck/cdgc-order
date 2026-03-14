@@ -14,16 +14,22 @@ export const plantData = [
     {
         "Large Geranium Deck Pots" : [
             {"name": "All Red", "unit": "Pots", "cost": 2500},
-            {"name": "Hot Mix", "subname": " - Bright Orange and Violet", "unit": "Pots", "cost": 2500},
+            {"name": "Hot Mix", "subname": " - Orange and Violet", "unit": "Pots", "cost": 2500},
             {"name": "All Orange", "unit": "Pots", "cost": 2500},
             {"name": "All White", "unit": "Pots", "cost": 2500},
-            {"name": "Miami Mix", "subname": " - Flamingo Rose & Violet", "unit": "Pots", "cost": 2500},
+            {"name": "Miami Mix", "subname": " - Flamingo Rose and Violet", "unit": "Pots", "cost": 2500},
             {"name": "All Violet", "unit": "Pots", "cost": 2500}
         ],
         "indent" : true
     },
     {
-        "Deck Pot for Shade" : [
+        "Large Deck Pot for Shade" : [
+            {"name": "Assorted", "subname": " - Make Selection at Pickup", "unit": "Pots", "cost": 2500}
+        ],
+        "indent" : true
+    },
+    {
+        "Large Mixed Coleus Deck Pot" : [
             {"name": "Assorted", "subname": " - Make Selection at Pickup", "unit": "Pots", "cost": 2500}
         ],
         "indent" : true
@@ -32,6 +38,14 @@ export const plantData = [
         "Hanging Baskets" : [
             {"name": "Boston Fern", "unit": "Baskets", "cost": 1800},
             {"name": "Streptocarpus", "unit": "Baskets", "cost": 1800}
+        ],
+        "indent" : true
+    },
+    {
+        "Lantana Hanging Baskets" : [
+            {"name": "Red", "unit": "Baskets", "cost": 1600},
+            {"name": "Orange Flame", "unit": "Baskets", "cost": 1600},
+            {"name": "White", "unit": "Baskets", "cost": 1600}
         ],
         "indent" : true
     },
@@ -51,37 +65,7 @@ export const plantData = [
         ],
         "indent" : true
     },
-    {"name": "Baby Tut Grass", "unit": "Plants", "cost": 700},
-    {"name": "Purple Fountain Grass", "unit": "Plants", "cost": 700},
+    {"name": "Baby Tut Grass", "unit": "Plants", "cost": 800},
+    {"name": "Purple Fountain Grass", "unit": "Plants", "cost": 800},
     {"name": "Caladium", "subname": " - White with Green Vein", "unit": "Plants", "cost": 600},
-    {
-        "Sunpatiens" : [
-            {"name": "Deep Rose", "unit": "Plants", "cost": 450},
-            {"name": "Orange", "unit": "Plants", "cost": 450},
-            {"name": "Magenta Bliss", "unit": "Plants", "cost": 450},
-            {"name": "White", "unit": "Plants", "cost": 450}
-        ],
-        "indent" : true
-    },
-    {
-        "Geraniums" : [
-            {"name": "Red", "unit": "Plants", "cost": 450},
-            {"name": "White", "unit": "Plants", "cost": 450},
-            {"name": "Pink Flare (Neon Rose)", "unit": "Plants", "cost": 450},
-            {"name": "Strawberry Sizzle", "subname": " - Dark Pink", "unit": "Plants", "cost": 450},
-            {"name": "Cranberry Sizzle", "subname": " - Magenta", "unit": "Plants", "cost": 450}
-        ],
-        "indent" : true
-    },
-    {
-        "Sweet Potato Vines" : [
-            {"name": "Margarita", "unit": "Plants", "cost": 450},
-            {"name": "Tri-Color", "unit": "Plants", "cost": 450},
-            {"name": "Ace of Spades", "unit": "Plants", "cost": 450}
-        ],
-        "indent" : true
-    },
-    {"name": "Vinca Vine", "unit": "Plants", "cost": 400},
-    {"name": "Creeping Jenny", "unit": "Plants", "cost": 400},
-    {"name": "Spikes", "unit": "Plants", "cost": 400}
 ];

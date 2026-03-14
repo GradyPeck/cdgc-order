@@ -243,11 +243,11 @@ function App() {
           <input type='email' ref={emailInput} placeholder='Email' required></input>
         </div>
         <header>
-          <h1>2025 County Downs Garden Club Plant Sale</h1>
+          <h1>2026 County Downs Garden Club Plant Sale</h1>
           <h2>Orders due by <span className='redder'>May 1st</span></h2>
-          <h2>Plant order pick up <span className='redder'>May 15th and 16th</span></h2>
+          <h2>Plant order pick up <span className='redder'>May 14th</span></h2>
           <h2>You will be contacted to choose a pick up time</h2>
-          <h2>Location:  Justina's House, 8149 Hendrie, Huntington Woods</h2>
+          <h2><span className='redder'>NEW Location</span>:  Judy's House, 10154 Borgman, Huntington Woods</h2>
           <h2>Questions:  Call Judy Peck at 248-935-6653 or Justina Misuraca at 248-762-0764</h2>
         </header>
         <main className='main-grid'>
