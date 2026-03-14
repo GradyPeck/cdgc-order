@@ -171,7 +171,7 @@ function App() {
         'service_vbj6dhc', 
         'template_cj6ncrr', 
         {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: `Order Summary: ${textSummary}`, CSV_content: csv}, 
-        "1Pwmo3BHx-shOTe4M"
+        "Iu7Ptg37oyr3YYbk7XA8g"
       )
     );
 
