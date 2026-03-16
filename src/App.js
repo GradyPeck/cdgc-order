@@ -172,7 +172,7 @@ function App() {
     //send CSV email and collect returned promise
     emailReturns.push(
       emailjs.send(
-        'service_vbj6dhc', 
+        'service_odm0j5p', 
         'template_cj6ncrr', 
         {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: `Order Summary: ${textSummary}`, CSV_content: csv}
       )
@@ -194,7 +194,7 @@ function App() {
       () => {
         emailReturns.push(
           emailjs.send(
-            'service_vbj6dhc', 
+            'service_odm0j5p', 
             'template_u3adivs', 
             templateParams
           )
