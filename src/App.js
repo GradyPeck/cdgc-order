@@ -175,10 +175,11 @@ function App() {
         'service_odm0j5p', 
         'template_cj6ncrr', 
         {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: `Order Summary: ${textSummary}`, CSV_content: csv},
-        "Iu7Ptg37oyr3YYbk7XA8g"
+        "ETm0J95nHoVuN4rgn"
       )
     );
-
+    //ETm0J95nHoVuN4rgn
+    //Iu7Ptg37oyr3YYbk7XA8g
     loadingBox.current.style["display"] = "flex";
     summaryBkg.current.style.visibility = "hidden";
     
@@ -198,7 +199,7 @@ function App() {
             'service_odm0j5p', 
             'template_u3adivs', 
             templateParams,
-            "Iu7Ptg37oyr3YYbk7XA8g"
+            "ETm0J95nHoVuN4rgn"
           )
         );
       },
@@ -248,7 +249,7 @@ function App() {
           <input type='email' ref={emailInput} placeholder='Email' required></input>
         </div>
         <header>
-          <h1>6666 County Downs Garden Club Plant Sale</h1>
+          <h1>2026 County Downs Garden Club Plant Sale</h1>
           <h2>Orders due by <span className='redder'>May 1st</span></h2>
           <h2>Plant order pick up <span className='redder'>May 14th</span></h2>
           <h2>You will be contacted to choose a pick up time</h2>
