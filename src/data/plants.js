@@ -43,9 +43,9 @@ export const plantData = [
     },
     {
         "Lantana Hanging Baskets" : [
-            {"name": "Red", "unit": "Baskets", "cost": 1600},
-            {"name": "Orange Flame", "unit": "Baskets", "cost": 1600},
-            {"name": "White", "unit": "Baskets", "cost": 1600}
+            {"name": "Red", "unit": "Baskets", "cost": 1800},
+            {"name": "Orange Flame", "unit": "Baskets", "cost": 1800},
+            {"name": "White", "unit": "Baskets", "cost": 1800}
         ],
         "indent" : true
     },
