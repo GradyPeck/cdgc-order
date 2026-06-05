@@ -176,7 +176,7 @@ function App() {
         'template_cj6ncrr', 
         {
           from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, 
-          email_body: `<h1>${firstNameInput.current.value} ${lastNameInput.current.value}, ${phoneInput.current.value}</h1>\n${textSummary}`, CSV_content: csv},
+          email_body: `${firstNameInput.current.value} ${lastNameInput.current.value}, ${phoneInput.current.value}\n${textSummary}`, CSV_content: csv},
         "ETm0J95nHoVuN4rgn"
       )
     );
