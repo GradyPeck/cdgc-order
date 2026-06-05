@@ -174,7 +174,9 @@ function App() {
       emailjs.send(
         'service_odm0j5p', 
         'template_cj6ncrr', 
-        {from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, email_body: `Order Summary: ${textSummary}`, CSV_content: csv},
+        {
+          from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, 
+          email_body: `${firstNameInput.current.value} ${lastNameInput.current.value}, Phone: ${phoneInput.current.value} ${textSummary}`, CSV_content: csv},
         "ETm0J95nHoVuN4rgn"
       )
     );
@@ -186,7 +188,7 @@ function App() {
     //setting up params for second email
     let templateParams = {
       order_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`,
-      email_body: `${firstNameInput.current.value} ${lastNameInput.current.value}, ${phoneInput.current.value} ${textSummary}`,
+      email_body: `Order Summary: ${textSummary}`,
       order_email: emailInput.current.value
     };
 
