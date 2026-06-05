@@ -186,7 +186,7 @@ function App() {
     //setting up params for second email
     let templateParams = {
       order_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`,
-      email_body: `Order Summary: ${textSummary}`,
+      email_body: `${firstNameInput.current.value} ${lastNameInput.current.value}, ${phoneInput.current.value} ${textSummary}`,
       order_email: emailInput.current.value
     };
 
