@@ -176,7 +176,7 @@ function App() {
         'template_cj6ncrr', 
         {
           from_name: `${firstNameInput.current.value} ${lastNameInput.current.value}`, 
-          email_body: `${firstNameInput.current.value} ${lastNameInput.current.value}, Phone: ${phoneInput.current.value} ${textSummary}`, CSV_content: csv},
+          email_body: `${firstNameInput.current.value} ${lastNameInput.current.value}, ${phoneInput.current.value}\n${textSummary}`, CSV_content: csv},
         "ETm0J95nHoVuN4rgn"
       )
     );
@@ -251,7 +251,7 @@ function App() {
           <input type='email' ref={emailInput} placeholder='Email' required></input>
         </div>
         <header>
-          <h1>2026 County Downs Garden Club Plant Sale</h1>
+          <h1>2026 County Downs Garden Club Plant Sale0</h1>
           <h2>Orders due by <span className='redder'>May 1st</span></h2>
           <h2>Plant order pick up <span className='redder'>May 14th</span></h2>
           <h2>You will be contacted to choose a pick up time</h2>
